@@ -16,17 +16,45 @@
             background: linear-gradient(-45deg, #fffaf5, #fff4e6, #ffffff, #fff1e0);
             background-size: 400% 400%;
             animation: gradient 15s ease infinite;
+            position: relative;
+        }
+        /* Neural Grid Design */
+        .animated-bg::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background-image: radial-gradient(circle, #e5e7eb 1.5px, transparent 1.5px);
+            background-size: 40px 40px;
+            opacity: 0.5;
+            pointer-events: none;
         }
         .glass-effect {
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
         }
         .hover-lift {
-            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
         .hover-lift:hover {
-            transform: translateY(-8px);
+            transform: translateY(-12px);
+            box-shadow: 0 20px 40px rgba(251, 146, 60, 0.15);
+        }
+        .contact-popup {
+            transition: all 0.5s ease-out;
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+        }
+        .contact-popup.active {
+            max-height: 150px;
+            opacity: 1;
+            margin-top: 1.5rem;
+        }
+        .active-card {
+            border-color: #ea580c !important;
+            background: #fffcf9 !important;
         }
     </style>
 </head>
@@ -182,40 +210,64 @@
                 <div class="flex flex-col md:flex-row md:items-end justify-between mb-20 gap-6">
                     <div>
                         <h2 class="text-4xl font-black mb-4">Direct Channels</h2>
-                        <p class="text-gray-500 text-lg">Skip the queue and contact the relevant department directly.</p>
+                        <p class="text-gray-500 text-lg">Choose a department to see specific contact information.</p>
                     </div>
                     <div class="h-px flex-1 bg-gray-100 hidden md:block mx-12"></div>
                 </div>
+                
                 <div class="grid md:grid-cols-3 gap-8">
-                    <div class="p-10 rounded-[2.5rem] bg-slate-50 border border-transparent hover:border-orange-200 transition-all group">
+                    <div id="card-job" class="p-10 rounded-[2.5rem] bg-slate-50 border-2 border-transparent hover:border-orange-200 transition-all group cursor-pointer" onclick="toggleContact('job')">
                         <div class="w-16 h-16 bg-white rounded-2xl shadow-sm flex items-center justify-center mb-8 group-hover:bg-orange-600 transition-colors">
                             <i class="fa-solid fa-user-tie text-orange-600 text-2xl group-hover:text-white transition-colors"></i>
                         </div>
                         <h3 class="text-2xl font-black mb-4">Job Seekers</h3>
-                        <p class="text-gray-500 mb-8 leading-relaxed">Send your CV directly to our placement team.</p>
-                        <a href="mailto:jemiahgarudaagency@gmail.com" class="inline-flex items-center text-orange-600 font-black hover:gap-4 transition-all">
-                            EMAIL US <i class="fa-solid fa-arrow-right ml-2 text-xs"></i>
-                        </a>
+                        <p class="text-gray-500 leading-relaxed">Send your CV directly to our Talent Acquisition team.</p>
+                        
+                        <div id="pop-job" class="contact-popup">
+                            <div class="p-4 bg-orange-50 rounded-2xl border border-orange-100">
+                                <span class="text-[10px] font-bold text-orange-600 uppercase block mb-1">Talent Acquisition Email:</span>
+                                <a href="mailto:jemiahgarudaagency@gmail.com" class="text-lg font-black text-gray-900 break-all underline decoration-orange-300">jemiahgarudaagency@gmail.com</a>
+                            </div>
+                        </div>
+                        <span class="inline-flex mt-6 items-center text-orange-600 font-black text-xs tracking-widest uppercase group-hover:gap-4 transition-all">
+                            CLICK TO VIEW <i class="fa-solid fa-arrow-down ml-2"></i>
+                        </span>
                     </div>
-                    <div class="p-10 rounded-[2.5rem] bg-slate-50 border border-transparent hover:border-amber-200 transition-all group">
+
+                    <div id="card-emp" class="p-10 rounded-[2.5rem] bg-slate-50 border-2 border-transparent hover:border-amber-200 transition-all group cursor-pointer" onclick="toggleContact('emp')">
                         <div class="w-16 h-16 bg-white rounded-2xl shadow-sm flex items-center justify-center mb-8 group-hover:bg-amber-500 transition-colors">
                             <i class="fa-solid fa-building text-amber-600 text-2xl group-hover:text-white transition-colors"></i>
                         </div>
                         <h3 class="text-2xl font-black mb-4">Employers</h3>
-                        <p class="text-gray-500 mb-8 leading-relaxed">Inquire about talent acquisition and corporate partnerships.</p>
-                        <a href="mailto:hrmiah.garuda04@gmail.com" class="inline-flex items-center text-amber-600 font-black hover:gap-4 transition-all">
-                            HIRE TALENT <i class="fa-solid fa-arrow-right ml-2 text-xs"></i>
-                        </a>
+                        <p class="text-gray-500 leading-relaxed">Inquire about elite talent and corporate partnerships.</p>
+                        
+                        <div id="pop-emp" class="contact-popup">
+                            <div class="p-4 bg-amber-50 rounded-2xl border border-amber-100">
+                                <span class="text-[10px] font-bold text-amber-600 uppercase block mb-1">Partnership Desk:</span>
+                                <a href="mailto:hrmiah.garuda04@gmail.com" class="text-lg font-black text-gray-900 break-all underline decoration-amber-300">hrmiah.garuda04@gmail.com</a>
+                            </div>
+                        </div>
+                        <span class="inline-flex mt-6 items-center text-amber-600 font-black text-xs tracking-widest uppercase group-hover:gap-4 transition-all">
+                            CLICK TO VIEW <i class="fa-solid fa-arrow-down ml-2"></i>
+                        </span>
                     </div>
-                    <div class="p-10 rounded-[2.5rem] bg-slate-50 border border-transparent hover:border-gray-300 transition-all group">
+
+                    <div id="card-press" class="p-10 rounded-[2.5rem] bg-slate-50 border-2 border-transparent hover:border-gray-300 transition-all group cursor-pointer" onclick="toggleContact('press')">
                         <div class="w-16 h-16 bg-white rounded-2xl shadow-sm flex items-center justify-center mb-8 group-hover:bg-gray-900 transition-colors">
                             <i class="fa-solid fa-bullhorn text-gray-700 text-2xl group-hover:text-white transition-colors"></i>
                         </div>
                         <h3 class="text-2xl font-black mb-4">Media & Press</h3>
-                        <p class="text-gray-500 mb-8 leading-relaxed">For all press releases and marketing inquiries.</p>
-                        <a href="mailto:hrjhoseph.garuda27@gmail.com" class="inline-flex items-center text-gray-900 font-black hover:gap-4 transition-all">
-                            PRESS OFFICE <i class="fa-solid fa-arrow-right ml-2 text-xs"></i>
-                        </a>
+                        <p class="text-gray-500 leading-relaxed">For all press releases and marketing inquiries.</p>
+                        
+                        <div id="pop-press" class="contact-popup">
+                            <div class="p-4 bg-gray-100 rounded-2xl border border-gray-200">
+                                <span class="text-[10px] font-bold text-gray-600 uppercase block mb-1">Press Office:</span>
+                                <a href="mailto:hrjhoseph.garuda27@gmail.com" class="text-lg font-black text-gray-900 break-all underline decoration-gray-400">hrjhoseph.garuda27@gmail.com</a>
+                            </div>
+                        </div>
+                        <span class="inline-flex mt-6 items-center text-gray-900 font-black text-xs tracking-widest uppercase group-hover:gap-4 transition-all">
+                            CLICK TO VIEW <i class="fa-solid fa-arrow-down ml-2"></i>
+                        </span>
                     </div>
                 </div>
             </div>
@@ -279,13 +331,12 @@
                         <a href="https://www.facebook.com/profile.php?id=61573077883792" target="_blank" rel="noopener noreferrer" class="text-white hover:bg-white hover:text-orange-600 transition-all p-3 bg-orange-700 rounded-xl shadow-sm">
                             <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
                         </a>
-                        </a>
                     </div>
                 </div>
             </div>
 
             <div class="border-t border-orange-500/50 mt-8 pt-6 text-[11px] text-center tracking-[0.25em] uppercase font-bold text-orange-200">
-                <p>&copy; 2019 Garuda Recruitment Agency. All rights reserved.</p>
+                <p>© 2019 Garuda Recruitment Agency. All rights reserved.</p>
             </div>
         </div>
     </footer>
@@ -293,7 +344,19 @@
     <script>
         function toggleMobileMenu() {
             const menu = document.getElementById('mobile-menu');
-            menu.classList.toggle('hidden');
+            if(menu) menu.classList.toggle('hidden');
+        }
+
+        function toggleContact(type) {
+            // Close all first
+            document.querySelectorAll('.contact-popup').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('[id^="card-"]').forEach(c => c.classList.remove('active-card'));
+            
+            // Open target
+            const target = document.getElementById('pop-' + type);
+            const card = document.getElementById('card-' + type);
+            target.classList.add('active');
+            card.classList.add('active-card');
         }
 
         function handleSubmit(event) {
@@ -304,7 +367,7 @@
             btn.disabled = true;
 
             setTimeout(() => {
-                alert('Success! Garuda team will contact you shortly.');
+                alert('Success! Garuda team will review your CV.');
                 btn.innerHTML = originalText;
                 btn.disabled = false;
                 event.target.reset();
