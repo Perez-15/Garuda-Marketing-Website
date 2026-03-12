@@ -31,7 +31,6 @@
             transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* Number Effect: Hover Lift */
         .glass-tile:hover {
             transform: translateY(-5px);
             border-color: rgba(249, 115, 22, 0.5);
@@ -140,11 +139,12 @@
                         Garuda <span class="text-orange-600">Recruitment Agency</span>
                     </span>
                 </a>
-            <div class="hidden md:flex gap-10">
-                <a href="index.html" class="text-sm font-bold text-gray-500 hover:text-orange-600 transition-colors">Home</a>
-                <a href="about.html" class="text-sm font-bold text-gray-500 hover:text-orange-600 transition-colors">About</a>
-                <a href="jobs.html" class="text-sm font-bold text-orange-600 relative after:absolute after:-bottom-7 after:left-0 after:w-full after:h-1 after:bg-orange-600">Jobs</a>
-                <a href="contact.html" class="text-sm font-bold text-gray-500 hover:text-orange-600 transition-colors">Contact</a>
+                <div class="hidden md:flex gap-10">
+                    <a href="index.html" class="text-sm font-bold text-gray-500 hover:text-orange-600 transition-colors">Home</a>
+                    <a href="about.html" class="text-sm font-bold text-gray-500 hover:text-orange-600 transition-colors">About</a>
+                    <a href="jobs.html" class="text-sm font-bold text-orange-600 relative after:absolute after:-bottom-7 after:left-0 after:w-full after:h-1 after:bg-orange-600">Jobs</a>
+                    <a href="contact.html" class="text-sm font-bold text-gray-500 hover:text-orange-600 transition-colors">Contact</a>
+                </div>
             </div>
         </nav>
     </header>
@@ -214,7 +214,42 @@
                 </div>
             </div>
         </section>
-    </main>
+
+        <section class="mx-auto max-w-4xl px-4 mb-32 group/section">
+    <div class="bg-white border-[6px] border-slate-950 rounded-[3rem] p-10 md:p-16 shadow-[20px_20px_0px_0px_rgba(234,88,12,1)] relative overflow-hidden transition-all duration-500 hover:shadow-[30px_30px_0px_0px_rgba(234,88,12,1)] hover:-translate-x-2 hover:-translate-y-2">
+        
+        <div class="absolute inset-0 opacity-[0.03] pointer-events-none" 
+             style="background-image: radial-gradient(#ea580c 1px, transparent 1px); background-size: 20px 20px;">
+        </div>
+
+        <div class="relative z-10 flex flex-col md:flex-row items-center gap-10">
+            <div class="flex-1 text-center md:text-left">
+                <div class="inline-block px-3 py-1 rounded-lg bg-orange-100 text-orange-600 text-[10px] font-black uppercase tracking-[0.2em] mb-4">
+                    Direct Entry
+                </div>
+                <h2 class="text-5xl md:text-6xl font-black text-slate-950 tracking-tighter leading-[0.9] mb-4">
+                    Don't see <br><span class="text-orange-600">a fit?</span>
+                </h2>
+                <p class="text-slate-500 font-bold uppercase text-xs tracking-[0.15em] leading-relaxed">
+                    We build custom roles for elite talent.<br> 
+                    Send your profile to our priority queue.
+                </p>
+            </div>
+
+            <button onclick="openApplication()" 
+               class="group/btn relative bg-[#ea580c] text-white px-12 py-6 rounded-2xl font-black text-xl shadow-[0_10px_20px_rgba(234,88,12,0.3)] hover:bg-slate-950 transition-all duration-300 active:scale-95 flex items-center gap-3">
+               <span>SEND CV</span>
+               <svg class="w-6 h-6 transition-transform group-hover/btn:translate-x-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+               </svg>
+            </button>
+        </div>
+        
+        <div class="absolute -bottom-8 -right-4 text-9xl font-black text-slate-100/50 select-none pointer-events-none uppercase italic tracking-tighter transition-all duration-700 group-hover/section:text-orange-50 group-hover/section:scale-110">
+            Garuda
+        </div>
+    </div>
+</section>
 
     <footer class="bg-orange-600 text-white relative overflow-hidden border-t border-orange-400">
         <div class="absolute inset-0 opacity-10 pointer-events-none">
@@ -300,7 +335,6 @@
         let currentCategory = 'All';
         let filteredJobs = [...jobs];
 
-        // --- NEW: Number Counter Animation ---
         function animateValue(id, start, end, duration, suffix = "") {
             const obj = document.getElementById(id);
             if (!obj) return;
@@ -309,11 +343,8 @@
             const step = (timestamp) => {
                 if (!startTimestamp) startTimestamp = timestamp;
                 const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-                
-                // Ease-out cubic formula
                 const easeOut = 1 - Math.pow(1 - progress, 3);
                 const current = Math.floor(easeOut * (end - start) + start);
-                
                 obj.innerHTML = current + suffix;
                 if (progress < 1) {
                     window.requestAnimationFrame(step);
@@ -322,15 +353,12 @@
             window.requestAnimationFrame(step);
         }
 
-        // Initialize animations on load
         window.addEventListener('DOMContentLoaded', () => {
             renderJobs();
-            // Counter targets
             animateValue("stat-placements", 0, 500, 2500, "+");
             animateValue("stat-satisfaction", 0, 98, 2000, "%");
         });
 
-        // File name display logic
         document.getElementById('resume').addEventListener('change', function(e) {
             const fileName = e.target.files[0] ? e.target.files[0].name : "Choose file...";
             const display = document.getElementById('fileNameDisplay');
@@ -339,7 +367,6 @@
             display.classList.add('text-orange-950');
         });
 
-        // Form Submission Logic
         document.getElementById('applyForm').addEventListener('submit', function(e) {
             e.preventDefault();
             const notification = document.getElementById('notification');
