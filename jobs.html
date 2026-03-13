@@ -91,7 +91,7 @@
 
         .notification-toast {
             transform: translateX(120%);
-            transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
         .notification-toast.show { transform: translateX(0); }
 
@@ -103,45 +103,99 @@
 </head>
 <body class="min-h-screen flex flex-col relative overflow-x-hidden">
 
-    <div id="notification" class="notification-toast fixed top-6 right-6 z-[200] flex items-center gap-4 bg-orange-950 text-white p-5 rounded-2xl shadow-2xl border border-orange-500/30 min-w-[320px]">
-        <div class="bg-orange-600 p-2 rounded-lg">
-            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
-        </div>
-        <div>
-            <p class="font-black text-sm uppercase tracking-wider">Success!</p>
-            <p class="text-xs text-orange-200 font-medium">Your application has been sent.</p>
-        </div>
+<div id="notification" class="notification-toast fixed top-6 right-6 z-[200] flex items-center gap-4 bg-orange-950 text-white p-5 rounded-2xl shadow-2xl border border-orange-500/30 min-w-[320px]">
+    <div id="toastIcon" class="bg-orange-600 p-2 rounded-lg">
+        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
     </div>
+    <div>
+        <p id="toastTitle" class="font-black text-sm uppercase tracking-wider">Success!</p>
+        <p id="toastMessage" class="text-xs text-orange-200 font-medium">Your application has been sent.</p>
+    </div>
+</div>
 
-    <div id="applicationModal" class="fixed inset-0 z-[100] invisible opacity-0 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm overflow-y-auto">
-        <div class="bg-white w-full max-w-xl rounded-[2.5rem] p-8 md:p-12 shadow-2xl relative my-8">
-            <button onclick="closeModal()" class="absolute top-6 right-6 text-gray-400 hover:text-orange-600">
-                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-            </button>
-            <h2 class="text-3xl font-black text-orange-950 mb-2">Candidate Information</h2>
-            <p class="text-sm text-gray-500 mb-8 font-bold uppercase tracking-widest">Recruitment Application Form</p>
-            <form id="applyForm" class="space-y-4">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <input type="text" placeholder="Full Name" required class="w-full px-6 py-4 rounded-2xl bg-orange-50/50 border border-orange-100 focus:outline-none focus:border-orange-500 font-medium">
-                    <input type="email" placeholder="Email Address" required class="w-full px-6 py-4 rounded-2xl bg-orange-50/50 border border-orange-100 focus:outline-none focus:border-orange-500 font-medium">
-                </div>
-                <input type="tel" placeholder="Phone Number" required class="w-full px-6 py-4 rounded-2xl bg-orange-50/50 border border-orange-100 focus:outline-none focus:border-orange-500 font-medium">
-                <input type="text" placeholder="Complete Address" required class="w-full px-6 py-4 rounded-2xl bg-orange-50/50 border border-orange-100 focus:outline-none focus:border-orange-500 font-medium">
-                <input type="text" id="applyingFor" readonly class="w-full px-6 py-4 rounded-2xl bg-gray-100 border border-gray-200 text-gray-500 font-bold cursor-not-allowed">
-                <div class="space-y-2">
-                    <label class="block text-[10px] font-black text-orange-600 uppercase tracking-widest ml-2">Attach Resume (PDF/DOCX)</label>
+<div id="applicationModal" class="fixed inset-0 z-[100] invisible opacity-0 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm overflow-y-auto transition-all duration-300">
+    <div class="bg-white w-full max-w-4xl rounded-[2.5rem] p-8 md:p-12 shadow-2xl relative my-8">
+        <button onclick="closeModal()" class="absolute top-6 right-6 text-gray-400 hover:text-orange-600 transition-colors">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            <div>
+                <h2 class="text-3xl font-black text-orange-950 mb-2">Apply for <span id="modalJobTitle" class="text-orange-600">Position</span></h2>
+                <p class="text-sm text-gray-500 mb-8 font-bold uppercase tracking-widest">Candidate Information</p>
+                
+                <form id="applyForm" class="space-y-4">
+                    <input type="text" id="formName" placeholder="Full Name (e.g. Juan Dela Cruz)" required 
+                           class="w-full px-6 py-4 rounded-2xl bg-orange-50/50 border border-orange-100 focus:border-orange-500 outline-none transition-all">
+                    
+                    <input type="email" id="formEmail" placeholder="Gmail Address (e.g. name@gmail.com)" required 
+                           class="w-full px-6 py-4 rounded-2xl bg-orange-50/50 border border-orange-100 focus:border-orange-500 outline-none transition-all">
+                    
+                    <input type="tel" id="formPhone" placeholder="Phone Number (e.g. 09123456789)" required 
+                           pattern="09[0-9]{9}" maxlength="11"
+                           class="w-full px-6 py-4 rounded-2xl bg-orange-50/50 border border-orange-100 focus:border-orange-500 outline-none">
+                    
+                    <input type="text" id="formAddress" placeholder="Complete Address" required 
+                           class="w-full px-6 py-4 rounded-2xl bg-orange-50/50 border border-orange-100 focus:border-orange-500 outline-none">
+
                     <div class="relative group">
-                        <input type="file" id="resume" required class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
-                        <div class="w-full px-6 py-4 rounded-2xl bg-orange-50/30 border-2 border-dashed border-orange-200 group-hover:border-orange-500 transition-colors flex items-center justify-between">
-                            <span id="fileNameDisplay" class="text-gray-400 text-sm font-medium">Choose file...</span>
-                            <svg class="w-5 h-5 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"></path></svg>
+                        <input type="file" id="resumeInput" required accept=".pdf,.docx" 
+                               class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
+                        <div class="w-full px-6 py-4 rounded-2xl bg-orange-50/30 border-2 border-dashed border-orange-200 group-hover:border-orange-500 transition-all flex items-center justify-between">
+                            <span id="fileNameDisplay" class="text-gray-400 text-sm font-medium">Attach Resume (PDF/DOCX)</span>
+                            <svg class="w-5 h-5 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"></path></svg>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="w-full bg-orange-600 hover:bg-orange-700 text-white py-5 rounded-2xl font-black text-lg shadow-xl shadow-orange-600/20 transform active:scale-95 transition-all">
+                        Submit Application
+                    </button>
+                </form>
+            </div>
+
+            <div class="bg-slate-950 rounded-[2.5rem] p-8 border border-slate-800 hidden lg:flex flex-col relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-orange-600/10 rounded-full blur-3xl -mr-16 -mt-16"></div>
+                <h3 class="text-[10px] font-black text-orange-500 uppercase tracking-[0.4em] mb-12 flex items-center gap-2">
+                    <span class="w-2 h-2 bg-orange-500 rounded-full animate-pulse"></span>
+                    Verified Application
+                </h3>
+                
+                <div class="space-y-10 relative z-10">
+                    <div class="group">
+                        <label class="block text-[10px] uppercase font-black text-slate-500 mb-2 tracking-widest">Candidate Name</label>
+                        <p id="previewName" class="font-black text-2xl text-white uppercase tracking-tight">---</p>
+                        <div class="h-0.5 w-8 bg-orange-600 mt-2 group-hover:w-full transition-all duration-500"></div>
+                    </div>
+
+                    <div class="grid grid-cols-1 gap-8">
+                        <div>
+                            <label class="block text-[10px] uppercase font-black text-slate-500 mb-2 tracking-widest">Email Access</label>
+                            <p id="previewEmail" class="text-sm font-bold text-orange-400 break-all">---</p>
+                        </div>
+                        <div>
+                            <label class="block text-[10px] uppercase font-black text-slate-500 mb-2 tracking-widest">Mobile Link</label>
+                            <p id="previewPhone" class="text-lg font-black text-slate-200 tracking-widest">---</p>
+                        </div>
+                    </div>
+
+                    <div class="pt-6 border-t border-slate-800">
+                        <label class="block text-[10px] uppercase font-black text-slate-500 mb-3 tracking-widest">Document Status</label>
+                        <div class="flex items-center gap-3 bg-slate-900/50 p-3 rounded-xl border border-slate-800">
+                            <div class="bg-orange-600/20 p-2 rounded-lg">
+                                <svg class="w-4 h-4 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                            </div>
+                            <p id="previewFile" class="text-xs font-bold text-slate-400 italic">No document attached</p>
                         </div>
                     </div>
                 </div>
-                <button type="submit" class="w-full bg-orange-600 hover:bg-orange-700 text-white py-5 rounded-2xl font-black text-lg transition-all shadow-xl shadow-orange-600/20">Submit Application</button>
-            </form>
+                
+                <div class="mt-auto text-[8px] font-bold text-slate-700 uppercase tracking-[0.5em] text-center pt-8">
+                    Garuda Systems © 2026
+                </div>
+            </div>
         </div>
     </div>
+</div>
 
     <header class="bg-white/80 backdrop-blur-xl shadow-sm sticky top-0 z-50 border-b border-orange-100">
         <nav class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -242,22 +296,111 @@
         </section>
 
         <section class="mx-auto max-w-4xl px-4 mb-32 group/section">
-            <div class="bg-white border-[6px] border-slate-950 rounded-[3rem] p-10 md:p-16 shadow-[20px_20px_0px_0px_rgba(234,88,12,1)] relative overflow-hidden transition-all duration-500 hover:shadow-[30px_30px_0px_0px_rgba(234,88,12,1)] hover:-translate-x-2 hover:-translate-y-2">
-                <div class="absolute inset-0 opacity-[0.03] pointer-events-none" style="background-image: radial-gradient(#ea580c 1px, transparent 1px); background-size: 20px 20px;"></div>
-                <div class="relative z-10 flex flex-col md:flex-row items-center gap-10">
-                    <div class="flex-1 text-center md:text-left">
-                        <div class="inline-block px-3 py-1 rounded-lg bg-orange-100 text-orange-600 text-[10px] font-black uppercase tracking-[0.2em] mb-4">Direct Entry</div>
-                        <h2 class="text-5xl md:text-6xl font-black text-slate-950 tracking-tighter leading-[0.9] mb-4">Don't see <br><span class="text-orange-600">a fit?</span></h2>
-                        <p class="text-slate-500 font-bold uppercase text-xs tracking-[0.15em] leading-relaxed">We build custom roles for elite talent.<br>Send your profile to our priority queue.</p>
-                    </div>
-                    <button onclick="openApplication('General Application')" class="group/btn relative bg-[#ea580c] text-white px-12 py-6 rounded-2xl font-black text-xl shadow-[0_10px_20px_rgba(234,88,12,0.3)] hover:bg-slate-950 transition-all duration-300 active:scale-95 flex items-center gap-3">
-                        <span>SEND CV</span>
-                        <svg class="w-6 h-6 transition-transform group-hover/btn:translate-x-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
-                    </button>
-                </div>
+    <div class="bg-white border-[6px] border-slate-950 rounded-[3rem] p-10 md:p-16 shadow-[20px_20px_0px_0px_rgba(234,88,12,1)] relative overflow-hidden transition-all duration-500 hover:shadow-[30px_30px_0px_0px_rgba(234,88,12,1)] hover:-translate-x-2 hover:-translate-y-2">
+        <div class="absolute inset-0 opacity-[0.03] pointer-events-none" style="background-image: radial-gradient(#ea580c 1px, transparent 1px); background-size: 20px 20px;"></div>
+        <div class="relative z-10 flex flex-col md:flex-row items-center gap-10">
+            <div class="flex-1 text-center md:text-left">
+                <div class="inline-block px-3 py-1 rounded-lg bg-orange-100 text-orange-600 text-[10px] font-black uppercase tracking-[0.2em] mb-4">Direct Entry</div>
+                <h2 class="text-5xl md:text-6xl font-black text-slate-950 tracking-tighter leading-[0.9] mb-4">Don't see <br><span class="text-orange-600">a fit?</span></h2>
+                <p class="text-slate-500 font-bold uppercase text-xs tracking-[0.15em] leading-relaxed">We build custom roles for elite talent.<br>Send your profile to our priority queue.</p>
             </div>
-        </section>
-    </main>
+            <button onclick="openApplication('General Application')" class="group/btn relative bg-[#ea580c] text-white px-12 py-6 rounded-2xl font-black text-xl shadow-[0_10px_20px_rgba(234,88,12,0.3)] hover:bg-slate-950 transition-all duration-300 active:scale-95 flex items-center gap-3">
+                <span>SEND CV</span>
+                <svg class="w-6 h-6 transition-transform group-hover/btn:translate-x-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+            </button>
+        </div>
+    </div>
+</section>
+
+<div id="applicationModal" class="fixed inset-0 z-[100] invisible opacity-0 transition-all duration-300 backdrop-blur-md bg-slate-950/40 flex items-center justify-center p-4">
+    <div class="bg-white w-full max-w-xl rounded-[2.5rem] p-8 md:p-12 shadow-2xl relative transition-transform duration-300 scale-95" id="modalContainer">
+        <button onclick="closeModal()" class="absolute top-6 right-6 text-slate-400 hover:text-slate-900 transition-colors">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="3" stroke-linecap="round" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+        
+        <h2 id="modalJobTitle" class="text-3xl font-black text-slate-950 uppercase mb-2 tracking-tighter">Application</h2>
+        <p class="text-slate-500 font-medium mb-8 uppercase text-xs tracking-widest">Priority Entry Queue</p>
+
+        <form id="applyForm" class="space-y-4">
+            <input type="text" placeholder="Full Name" required class="w-full px-6 py-4 bg-slate-50 rounded-2xl border-2 border-transparent focus:border-orange-500 focus:bg-white focus:outline-none transition-all font-semibold">
+            <input type="email" placeholder="Email Address" required class="w-full px-6 py-4 bg-slate-50 rounded-2xl border-2 border-transparent focus:border-orange-500 focus:bg-white focus:outline-none transition-all font-semibold">
+            
+            <div class="relative">
+                <input type="file" id="resumeInput" class="hidden" required>
+                <label for="resumeInput" id="fileNameDisplay" class="flex items-center justify-center w-full px-6 py-4 border-2 border-dashed border-slate-200 rounded-2xl text-slate-400 font-bold cursor-pointer hover:border-orange-500 hover:text-orange-600 transition-all">
+                    Attach Resume (PDF/DOCX)
+                </label>
+            </div>
+            
+            <button type="submit" class="w-full bg-orange-600 text-white py-5 rounded-2xl font-black text-lg hover:bg-slate-950 shadow-lg shadow-orange-600/20 hover:shadow-slate-950/20 transition-all active:scale-[0.98]">
+                SUBMIT REQUIREMENTS
+            </button>
+        </form>
+    </div>
+</div>
+
+<div id="successToast" class="fixed bottom-10 left-1/2 -translate-x-1/2 z-[110] flex items-center gap-4 bg-slate-950 text-white px-8 py-5 rounded-[2rem] shadow-2xl transition-all duration-500 translate-y-20 opacity-0 invisible [&.show]:translate-y-0 [&.show]:opacity-100 [&.show]:visible">
+    <div class="w-10 h-10 rounded-full bg-orange-600 flex items-center justify-center shrink-0">
+        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+    </div>
+    <div>
+        <h4 class="font-black uppercase text-[10px] tracking-widest text-orange-500">Success</h4>
+        <p class="text-white text-sm font-bold">Application sent to priority queue!</p>
+    </div>
+</div>
+
+<script>
+    // 1. Modal Functions
+    function openApplication(jobTitle) {
+        const modal = document.getElementById('applicationModal');
+        const container = document.getElementById('modalContainer');
+        const titleDisplay = document.getElementById('modalJobTitle');
+        
+        if (titleDisplay) titleDisplay.innerText = jobTitle;
+        
+        modal.classList.remove('invisible', 'opacity-0');
+        container.classList.remove('scale-95');
+        container.classList.add('scale-100');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+        const modal = document.getElementById('applicationModal');
+        const container = document.getElementById('modalContainer');
+        
+        modal.classList.add('invisible', 'opacity-0');
+        container.classList.add('scale-95');
+        container.classList.remove('scale-100');
+        document.body.style.overflow = 'auto';
+    }
+
+    // 2. File Input Label Update
+    document.getElementById('resumeInput').addEventListener('change', function(e) {
+        const fileName = e.target.files[0]?.name || "Attach Resume (PDF/DOCX)";
+        document.getElementById('fileNameDisplay').innerText = fileName;
+        document.getElementById('fileNameDisplay').classList.add('text-orange-600', 'border-orange-500');
+    });
+
+    // 3. Form Submission & Toast
+    document.getElementById('applyForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Show Success Toast
+        const toast = document.getElementById('successToast');
+        toast.classList.add('show');
+        
+        // Close Modal
+        closeModal();
+        
+        // Reset and hide toast after 4 seconds
+        setTimeout(() => {
+            toast.classList.remove('show');
+            this.reset();
+            document.getElementById('fileNameDisplay').innerText = "Attach Resume (PDF/DOCX)";
+            document.getElementById('fileNameDisplay').classList.remove('text-orange-600', 'border-orange-500');
+        }, 4000);
+    });
+</script>
 
     <footer class="bg-orange-600 text-white relative overflow-hidden border-t border-orange-400">
         <div class="absolute inset-0 opacity-10 pointer-events-none">
@@ -328,6 +471,7 @@
     </footer>
 
     <script>
+    // 1. Unified Data Source
     const jobs = [
         { id: 12, title: 'OSP TECHNICIAN', location: 'NCR', type: 'Full-time', salary: 'TBD', category: 'Technician', posted: 'Just now', description: 'Expertise in outside plant fiber installations and infrastructure maintenance.' },
         { id: 13, title: 'TECHNICAL CREW', location: 'NCR', type: 'Full-time', salary: 'TBD', category: 'Technician', posted: 'Just now', description: 'Technical support and operational equipment maintenance for specialized sites.' },
@@ -337,7 +481,6 @@
         { id: 4, title: 'CSR REPRESENTATIVE', location: 'Ortigas', type: 'Full-time', salary: 'TBD', category: 'BPO', posted: '5 days ago', description: 'Handle inbound calls and provide technical support to international clients.' },
         { id: 5, title: 'SERVICE CREW', location: 'Taytay | Marikina | Taguig', type: 'Contract', salary: 'TBD', category: 'Crew', posted: '1 hour ago', description: 'Fast-paced environment handling customer orders and dining area cleanliness.' },
         { id: 6, title: 'CASHIER', location: 'Taytay | Marikina', type: 'Full-time', salary: 'TBD', category: 'Cashiering', posted: '4 days ago', description: 'Efficiently handling transactions and point-of-sale systems.' },
-        // Added Counter Job here
         { id: 14, title: 'COUNTER', location: 'Taytay | Marikina', type: 'Full-time', salary: 'TBD', category: 'Cashiering', posted: 'Just now', description: 'Assisting with front-end customer transactions and maintaining checkout efficiency.' },
         { id: 8, title: 'STOCK MAN', location: 'Taguig', type: 'Full-time', salary: 'TBD', category: 'Fastfood Inventory', posted: '2 days ago', description: 'Oversee daily stock movement and inventory audits.' },
         { id: 9, title: 'GRILL MAN', location: 'Marikina', type: 'Full-time', salary: 'TBD', category: 'Griller', posted: '2 days ago', description: 'Expertise in food preparation and high-volume grilling operations.' },
@@ -348,6 +491,118 @@
     let currentCategory = 'All';
     let filteredJobs = [...jobs];
 
+    // 2. Initialization
+    window.addEventListener('DOMContentLoaded', () => {
+        updateCategoryCounts();
+        renderJobs();
+        animateValue("stat-placements", 0, 850, 2000, "+");
+        animateValue("stat-satisfaction", 0, 98, 2000, "%");
+        setupFormListeners();
+    });
+
+    // 3. Core Logic: Rendering & Filtering
+    function renderJobs() {
+        const container = document.getElementById('jobListings');
+        const countLabel = document.getElementById('jobCount');
+        const noResults = document.getElementById('noResults');
+        
+        if (filteredJobs.length === 0) {
+            container.innerHTML = '';
+            if (noResults) noResults.classList.remove('hidden');
+            countLabel.textContent = '0 Matches';
+            return;
+        }
+        
+        if (noResults) noResults.classList.add('hidden');
+        countLabel.textContent = `${filteredJobs.length} active opportunities`;
+        
+        container.innerHTML = filteredJobs.map(job => `
+            <div class="job-card-layered p-8 md:p-10 rounded-[2.5rem] group border border-orange-50 bg-white shadow-sm transition-all hover:shadow-xl">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
+                    <div class="flex-1">
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="bg-orange-50 text-[10px] font-black text-orange-600 px-3 py-1 rounded-full uppercase tracking-widest border border-orange-100">${job.category}</span>
+                            <span class="text-[10px] font-bold text-stone-400 uppercase tracking-widest">${job.posted}</span>
+                        </div>
+                        <h3 class="text-3xl font-black text-orange-950 mb-3 tracking-tighter group-hover:text-orange-600 transition-colors">${job.title}</h3>
+                        <div class="flex flex-wrap gap-6 mb-6">
+                            <span class="text-xs font-bold text-stone-500">📍 ${job.location}</span>
+                            <span class="text-xs font-bold text-stone-500">💰 ${job.salary === 'TBD' ? 'TBD' : '₱' + job.salary}</span>
+                            <span class="text-xs font-black text-orange-500 uppercase tracking-tighter">${job.type}</span>
+                        </div>
+                        <p class="text-stone-500 text-sm leading-relaxed max-w-2xl font-medium">${job.description}</p>
+                    </div>
+                    <button onclick="openApplication('${job.title}')" class="w-full md:w-auto text-center bg-orange-600 hover:bg-orange-950 text-white px-10 py-4 rounded-2xl font-black transition-all active:scale-95 shadow-xl shadow-orange-600/20">
+                        APPLY NOW
+                    </button>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    function filterByCategory(category, el) {
+        currentCategory = category;
+        document.querySelectorAll('.category-pill').forEach(btn => btn.classList.remove('active'));
+        el.classList.add('active');
+        applyFilters();
+    }
+
+    function applyFilters() {
+        const query = document.getElementById('searchInput').value.toLowerCase();
+        filteredJobs = jobs.filter(job => {
+            const matchesSearch = job.title.toLowerCase().includes(query) || 
+                                 job.location.toLowerCase().includes(query) ||
+                                 job.category.toLowerCase().includes(query);
+            const matchesCategory = currentCategory === 'All' || job.category === currentCategory;
+            return matchesSearch && matchesCategory;
+        });
+        renderJobs();
+    }
+
+    // 4. Modal & Form Logic
+    function openApplication(jobTitle) {
+        const modal = document.getElementById('applicationModal');
+        const modalTitle = document.getElementById('modalJobTitle');
+        const hiddenInput = document.getElementById('applyingFor');
+
+        if(modalTitle) modalTitle.innerText = jobTitle;
+        if(hiddenInput) hiddenInput.value = jobTitle;
+
+        modal.classList.remove('invisible', 'opacity-0');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+        const modal = document.getElementById('applicationModal');
+        modal.classList.add('invisible', 'opacity-0');
+        document.body.style.overflow = 'auto';
+    }
+
+    function setupFormListeners() {
+        const resumeInput = document.getElementById('resumeInput');
+        if (resumeInput) {
+            resumeInput.addEventListener('change', function() {
+                if (this.files.length > 0) {
+                    const fileName = this.files[0].name;
+                    document.getElementById('fileNameDisplay').innerText = fileName;
+                    document.getElementById('previewFile').innerText = "📎 " + fileName;
+                }
+            });
+        }
+
+        // Live Preview logic
+        const inputs = { 'formName': 'previewName', 'formEmail': 'previewEmail', 'formPhone': 'previewPhone' };
+        Object.keys(inputs).forEach(id => {
+            const el = document.getElementById(id);
+            if(el) {
+                el.addEventListener('input', function() {
+                    document.getElementById(inputs[id]).innerText = this.value || "---";
+                });
+            }
+        });
+    }
+
+    // 5. Utility Functions
     function animateValue(id, start, end, duration, suffix = "") {
         const obj = document.getElementById(id);
         if (!obj) return;
@@ -363,91 +618,10 @@
         window.requestAnimationFrame(step);
     }
 
-    window.addEventListener('DOMContentLoaded', () => {
-        updateCategoryCounts();
-        renderJobs();
-        animateValue("stat-placements", 0, 500, 2500, "+");
-        animateValue("stat-satisfaction", 0, 98, 2000, "%");
-    });
-
     function updateCategoryCounts() {
-        const badges = document.querySelectorAll('.count-badge');
-        badges.forEach(badge => {
+        document.querySelectorAll('.count-badge').forEach(badge => {
             const cat = badge.getAttribute('data-category');
-            if (cat === 'All') {
-                badge.textContent = jobs.length;
-            } else {
-                const count = jobs.filter(j => j.category === cat).length;
-                badge.textContent = count;
-            }
+            badge.textContent = cat === 'All' ? jobs.length : jobs.filter(j => j.category === cat).length;
         });
-    }
-
-    function renderJobs() {
-        const container = document.getElementById('jobListings');
-        const countLabel = document.getElementById('jobCount');
-        const noResults = document.getElementById('noResults');
-        
-        if (filteredJobs.length === 0) {
-            container.innerHTML = '';
-            noResults.classList.remove('hidden');
-            countLabel.textContent = '0 Matches';
-            return;
-        }
-        
-        noResults.classList.add('hidden');
-        countLabel.textContent = `${filteredJobs.length} active opportunities`;
-        container.innerHTML = filteredJobs.map(job => `
-            <div class="job-card-layered p-8 md:p-10 rounded-[2.5rem] group border border-orange-50">
-                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
-                    <div class="flex-1">
-                        <div class="flex items-center gap-3 mb-4">
-                            <span class="bg-orange-50 text-[10px] font-black text-orange-600 px-3 py-1 rounded-full uppercase tracking-widest border border-orange-100">${job.category}</span>
-                            <span class="text-[10px] font-bold text-stone-400 uppercase tracking-widest">${job.posted}</span>
-                        </div>
-                        <h3 class="text-3xl font-black text-orange-950 mb-3 tracking-tighter group-hover:text-orange-600 transition-colors">${job.title}</h3>
-                        <div class="flex flex-wrap gap-6 mb-6">
-                            <span class="text-xs font-bold text-stone-500">📍 ${job.location}</span>
-                            <span class="text-xs font-bold text-stone-500">💰 ₱${job.salary}</span>
-                            <span class="text-xs font-black text-orange-500 uppercase tracking-tighter">${job.type}</span>
-                        </div>
-                        <p class="text-stone-500 text-sm leading-relaxed max-w-2xl font-medium">${job.description}</p>
-                    </div>
-                    <button onclick="openApplication('${job.title}')" class="w-full md:w-auto text-center bg-orange-600 hover:bg-orange-950 text-white px-10 py-4 rounded-2xl font-black transition-all hover:scale-105 shadow-xl shadow-orange-600/20">Fill up Application</button>
-                </div>
-            </div>
-        `).join('');
-    }
-
-    function filterByCategory(category, el) {
-        currentCategory = category;
-        document.querySelectorAll('.category-pill').forEach(btn => btn.classList.remove('active'));
-        el.classList.add('active');
-        filterJobs();
-    }
-
-    function filterJobs() {
-        const query = document.getElementById('searchInput').value.toLowerCase();
-        filteredJobs = jobs.filter(job => {
-            const matchesSearch = job.title.toLowerCase().includes(query) || job.category.toLowerCase().includes(query);
-            const matchesCategory = currentCategory === 'All' || job.category === currentCategory;
-            return matchesSearch && matchesCategory;
-        });
-        renderJobs();
-    }
-
-    function openApplication(jobTitle) {
-        const modal = document.getElementById('applicationModal');
-        document.getElementById('applyingFor').value = "Position: " + jobTitle;
-        modal.classList.remove('invisible', 'opacity-0');
-        document.body.style.overflow = 'hidden';
-    }
-
-    function closeModal() {
-        const modal = document.getElementById('applicationModal');
-        modal.classList.add('invisible', 'opacity-0');
-        document.body.style.overflow = 'auto';
     }
 </script>
-</body>
-</html>
