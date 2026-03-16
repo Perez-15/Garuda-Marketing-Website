@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Garuda TA - Control Center</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        
+        .neural-grid {
+            position: fixed; inset: 0;
+            background-image: radial-gradient(circle, #ea580c 1.2px, transparent 1.2px);
+            background-size: 30px 30px; opacity: 0.05; z-index: -1;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+        }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="neural-grid"></div>
+
+    <nav class="glass-panel sticky top-0 z-50 px-8 py-4 flex justify-between items-center border-b border-slate-200">
+        <div class="flex items-center gap-3">
+            <img src="logo.png" alt="Logo" class="h-10 w-10 object-contain">
+            <span class="font-black uppercase tracking-tighter text-xl text-slate-900">TA <span class="text-orange-600">Control Room</span></span>
+        </div>
+        <div class="flex items-center gap-6">
+            <span class="text-[10px] font-black uppercase tracking-widest text-slate-400">Status: <span class="text-green-500">Authorized</span></span>
+            <button onclick="logout()" class="text-[10px] font-black uppercase tracking-widest bg-slate-900 text-white px-6 py-2.5 rounded-full hover:bg-orange-600 transition-all shadow-lg active:scale-95">
+                Sign Out
+            </button>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto p-6 grid lg:grid-cols-3 gap-8 mt-8">
+        
+        <div class="lg:col-span-1">
+            <div class="glass-panel p-8 rounded-[2.5rem] shadow-xl shadow-orange-900/5 sticky top-28">
+                <h2 id="formTitle" class="text-2xl font-black tracking-tighter mb-6 uppercase text-slate-900">Post New <span class="text-orange-600">Job</span></h2>
+                
+                <form id="jobForm" class="space-y-4">
+                    <input type="hidden" id="jobId">
+                    <div>
+                        <label class="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">Job Title</label>
+                        <input type="text" id="jobTitle" required placeholder="e.g. Senior Technician" class="w-full p-4 bg-white border border-slate-100 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none font-bold text-sm">
+                    </div>
+                    <div>
+                        <label class="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">Location</label>
+                        <input type="text" id="jobLocation" required placeholder="Quezon City, PH" class="w-full p-4 bg-white border border-slate-100 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none font-bold text-sm">
+                    </div>
+                    <div>
+                        <label class="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">Category</label>
+                        <input
+                            type="text"
+                            id="jobCategory"
+                            placeholder="e.g. TECHNICIAN, RETAIL, BPO"
+                            class="w-full p-4 bg-white border border-slate-100 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none font-bold text-sm"
+                        >
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">Salary</label>
+                            <input type="text" id="jobSalary" placeholder="TBD or ₱25,000" class="w-full p-4 bg-white border border-slate-100 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none font-bold text-sm">
+                        </div>
+                        <div>
+                            <label class="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">Employment Type</label>
+                            <select id="jobType" class="w-full p-4 bg-white border border-slate-100 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none font-bold text-sm appearance-none">
+                                <option value="Full-time">Full-time</option>
+                                <option value="Part-time">Part-time</option>
+                                <option value="Contract">Contract</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">Short Description</label>
+                        <textarea id="jobDescription" rows="3" placeholder="One or two lines about the role..." class="w-full p-4 bg-white border border-slate-100 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none font-bold text-sm"></textarea>
+                    </div>
+                    <button type="submit" id="submitBtn" class="w-full py-4 bg-orange-600 text-white rounded-xl font-black uppercase tracking-widest hover:bg-slate-950 transition-all shadow-lg shadow-orange-200 mt-2">
+                        Publish Listing
+                    </button>
+                    <button type="button" id="cancelBtn" onclick="resetForm()" class="w-full py-2 text-slate-400 text-[10px] font-black uppercase tracking-widest hidden">
+                        Cancel Edit
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <div class="lg:col-span-2">
+            <div class="flex justify-between items-end mb-8">
+                <div>
+                    <h2 class="text-4xl font-black tracking-tighter uppercase text-slate-900">Active <span class="text-orange-600">Offers</span></h2>
+                    <p class="text-slate-500 text-sm font-medium mt-1">Manage live listings on the public jobs.html page.</p>
+                </div>
+                <div class="text-right">
+                    <span id="jobCount" class="text-3xl font-black text-slate-900">0</span>
+                    <p class="text-[10px] font-black uppercase text-slate-400">Total Listings</p>
+                </div>
+            </div>
+
+            <div id="adminJobList" class="space-y-4">
+                </div>
+        </div>
+    </main>
+
+    <script>
+    const STORAGE_KEY = 'garuda_jobs_data';
+
+    // 1. LOAD DATA
+    function loadJobs() {
+        const data = localStorage.getItem(STORAGE_KEY);
+        return data ? JSON.parse(data) : [];
+    }
+
+    // 2. DISPLAY THE LIST FOR THE TA
+    function renderAdminDashboard() {
+        const jobs = loadJobs();
+        const listContainer = document.getElementById('adminJobList');
+        const countEl = document.getElementById('jobCount');
+
+        listContainer.innerHTML = jobs.map(job => `
+            <div class="flex items-center justify-between p-4 bg-white border-b border-slate-100 rounded-xl mb-2">
+                <div>
+                    <h4 class="font-black text-slate-900 uppercase text-sm">${job.title}</h4>
+                    <p class="text-[10px] font-bold text-slate-400">${job.category} • ${job.location} • ${job.type}</p>
+                    <p class="text-[10px] font-bold text-orange-500 mt-1">Offer: ${job.salary}</p>
+                </div>
+                <div class="flex gap-2">
+                    <button onclick="editJob(${job.id})" class="p-2 text-blue-500"><i class="fa-solid fa-pen"></i></button>
+                    <button onclick="deleteJob(${job.id})" class="p-2 text-red-500"><i class="fa-solid fa-trash"></i></button>
+                </div>
+            </div>
+        `).join('');
+
+        if (countEl) {
+            countEl.textContent = jobs.length;
+        }
+    }
+
+    // 3. FORM SUBMISSION (ADD or UPDATE)
+    document.getElementById('jobForm').onsubmit = function(e) {
+        e.preventDefault();
+        const id = document.getElementById('jobId').value;
+        let jobs = loadJobs();
+
+        const newJob = {
+            id: id ? parseInt(id) : Date.now(),
+            title: document.getElementById('jobTitle').value.toUpperCase(),
+            location: document.getElementById('jobLocation').value,
+            category: document.getElementById('jobCategory').value,
+            salary: document.getElementById('jobSalary').value || 'TBD',
+            type: document.getElementById('jobType').value || 'Full-time',
+            description: document.getElementById('jobDescription').value,
+            postedAt: Date.now()
+        };
+
+        if (id) {
+            const index = jobs.findIndex(j => j.id == id);
+            jobs[index] = newJob;
+        } else {
+            jobs.unshift(newJob);
+        }
+
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(jobs));
+        this.reset();
+        document.getElementById('jobId').value = '';
+        renderAdminDashboard();
+        alert("Success: Job Board Updated!");
+    };
+
+    // 4. REMOVE JOB
+    function deleteJob(id) {
+        if(confirm("Permanently delete this job offer?")) {
+            const jobs = loadJobs().filter(j => j.id !== id);
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(jobs));
+            renderAdminDashboard();
+        }
+    }
+
+    // 5. FILL FORM FOR EDITING
+    function editJob(id) {
+        const job = loadJobs().find(j => j.id === id);
+        document.getElementById('jobId').value = job.id;
+        document.getElementById('jobTitle').value = job.title;
+        document.getElementById('jobLocation').value = job.location;
+        document.getElementById('jobCategory').value = job.category;
+        document.getElementById('jobSalary').value = job.salary;
+        document.getElementById('jobDescription').value = job.description;
+        
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function logout() {
+        window.location.href = 'login.html';
+    }
+
+    window.onload = renderAdminDashboard;
+</script>
+</body>
+</html>

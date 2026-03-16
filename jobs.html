@@ -198,21 +198,47 @@
 </div>
 
     <header class="bg-white/80 backdrop-blur-xl shadow-sm sticky top-0 z-50 border-b border-orange-100">
-        <nav class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div class="flex h-20 items-center justify-between">
-                <a href="index.html" class="flex items-center gap-3 group">
-                    <img src="logo.png" alt="Garuda Logo" class="h-12 w-12 object-contain transition-all duration-500 group-hover:scale-125 group-hover:rotate-[360deg]">
-                    <span class="text-2xl font-extrabold tracking-tight text-slate-900">Garuda <span class="text-orange-600">Recruitment Agency</span></span>
-                </a>
-                <div class="hidden md:flex gap-10">
-                    <a href="index.html" class="text-sm font-bold text-gray-500 hover:text-orange-600 transition-colors">Home</a>
-                    <a href="about.html" class="text-sm font-bold text-gray-500 hover:text-orange-600 transition-colors">About</a>
-                    <a href="jobs.html" class="text-sm font-bold text-orange-600 relative after:absolute after:-bottom-7 after:left-0 after:w-full after:h-1 after:bg-orange-600">Jobs</a>
-                    <a href="contact.html" class="text-sm font-bold text-gray-500 hover:text-orange-600 transition-colors">Contact</a>
+    <nav class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="flex h-20 items-center justify-between">
+            <a href="index.html" class="flex items-center gap-3 group">
+                <img src="logo.png" alt="Garuda Logo" class="h-12 w-12 object-contain transition-all duration-500 group-hover:scale-125 group-hover:rotate-[360deg]">
+                <span class="text-2xl font-extrabold tracking-tight text-slate-900">
+                    Garuda <span class="text-orange-600">Recruitment Agency</span>
+                </span>
+            </a>
+
+            <div class="hidden md:flex items-center gap-10">
+                <div class="flex gap-10">
+                    <a href="index.html" class="text-sm font-bold text-gray-500 hover:text-slate-900 transition-colors">Home</a>
+                    <a href="about.html" class="text-sm font-bold text-gray-500 hover:text-slate-900 transition-colors">About</a>
+                    <a href="jobs.html" class="text-sm font-bold text-slate-900 transition-colors relative after:content-[''] after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-0.5 after:bg-slate-900">Jobs</a>
+                    <a href="contact.html" class="text-sm font-bold text-gray-500 hover:text-slate-900 transition-colors">Contact</a>
                 </div>
+
+                <a href="login.html" class="flex items-center gap-2 px-5 py-2.5 bg-slate-950 text-white hover:bg-orange-600 rounded-xl transition-all duration-300 group shadow-lg shadow-slate-200">
+                    <svg class="h-4 w-4 text-orange-400 group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 11c0 3.517-1.009 6.799-2.753 9.571m-3.44-2.04l.054-.09A13.916 13.916 0 008 11a4 4 0 118 0c0 1.017-.07 2.019-.203 3m-2.118 6.844A21.88 21.88 0 0015.171 17m3.839 1.132c.645-2.266.99-4.659.99-7.132A8 8 0 008 4.07M3 15.364c.64-1.319 1-2.8 1-4.364 0-1.457.39-2.823 1.07-4"></path>
+                    </svg>
+                    <span class="text-[10px] font-black uppercase tracking-widest">TA Portal</span>
+                </a>
             </div>
-        </nav>
-    </header>
+
+            <button class="md:hidden p-2 text-slate-900" onclick="toggleMobileMenu()">
+                <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+
+        <div id="mobile-menu" class="hidden md:hidden pb-4">
+            <a href="index.html" class="block py-2 text-base font-bold text-gray-500">Home</a>
+            <a href="about.html" class="block py-2 text-base font-bold text-gray-500">About</a>
+            <a href="jobs.html" class="block py-2 text-base font-bold text-slate-900">Jobs</a>
+            <a href="contact.html" class="block py-2 text-base font-bold text-gray-500">Contact</a>
+            <a href="login.html" class="block py-3 mt-2 text-center text-sm font-black uppercase tracking-widest bg-orange-600 text-white rounded-xl">TA Portal</a>
+        </div>
+    </nav>
+</header>
 
     <main class="flex-1">
         <section class="aero-hero py-24 relative overflow-hidden">
@@ -238,48 +264,7 @@
             </div>
         </section>
 
-        <section class="relative -mt-12 z-30">
-            <div class="mx-auto max-w-5xl px-6">
-                <div class="bg-white/80 backdrop-blur-xl rounded-[3rem] shadow-[0_32px_64px_-16px_rgba(251,146,60,0.12)] p-3 border border-orange-100/50">
-                    <div class="flex flex-col gap-4">
-                        <div class="relative group">
-                            <div class="absolute inset-y-0 left-6 flex items-center pointer-events-none">
-                                <svg class="w-5 h-5 text-orange-400 group-focus-within:text-orange-600 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                            </div>
-                            <input type="text" id="searchInput" onkeyup="filterJobs()" placeholder="Search jobs, roles, or locations..." class="w-full pl-16 pr-6 py-5 bg-orange-50/50 rounded-[2rem] text-sm font-semibold text-orange-950 placeholder:text-orange-200 focus:outline-none focus:ring-2 focus:ring-orange-200/50 transition-all">
-                        </div>
-                        <div class="px-4 pb-2">
-                            <div class="flex items-center gap-2 overflow-x-auto no-scrollbar mask-fade-edges">
-                                <button onclick="filterByCategory('All', this)" class="category-pill active whitespace-nowrap px-6 py-2.5 rounded-full text-[11px] font-bold uppercase tracking-tighter transition-all">
-                                    All Roles <span class="count-badge" data-category="All">0</span>
-                                </button>
-                                <button onclick="filterByCategory('Technician', this)" class="category-pill whitespace-nowrap px-6 py-2.5 rounded-full text-[11px] font-bold uppercase tracking-tighter transition-all">
-                                    Technician <span class="count-badge" data-category="Technician">0</span>
-                                </button>
-                                <button onclick="filterByCategory('Retail Sales Associate', this)" class="category-pill whitespace-nowrap px-5 py-2.5 rounded-full text-[11px] font-bold uppercase tracking-tighter transition-all">
-                                    Retail <span class="count-badge" data-category="Retail Sales Associate">0</span>
-                                </button>
-                                <button onclick="filterByCategory('Warehouse Staff', this)" class="category-pill whitespace-nowrap px-5 py-2.5 rounded-full text-[11px] font-bold uppercase tracking-tighter transition-all">
-                                    Warehouse <span class="count-badge" data-category="Warehouse Staff">0</span>
-                                </button>
-                                <button onclick="filterByCategory('BPO', this)" class="category-pill whitespace-nowrap px-5 py-2.5 rounded-full text-[11px] font-bold uppercase tracking-tighter transition-all">
-                                    BPO <span class="count-badge" data-category="BPO">0</span>
-                                </button>
-                                <button onclick="filterByCategory('Crew', this)" class="category-pill whitespace-nowrap px-5 py-2.5 rounded-full text-[11px] font-bold uppercase tracking-tighter transition-all">
-                                    Crew <span class="count-badge" data-category="Crew">0</span>
-                                </button>
-                                <button onclick="filterByCategory('Cashiering', this)" class="category-pill whitespace-nowrap px-5 py-2.5 rounded-full text-[11px] font-bold uppercase tracking-tighter transition-all">
-                                    Cashiering <span class="count-badge" data-category="Cashiering">0</span>
-                                </button>
-                                <button onclick="filterByCategory('Griller', this)" class="category-pill whitespace-nowrap px-5 py-2.5 rounded-full text-[11px] font-bold uppercase tracking-tighter transition-all">
-                                    Griller <span class="count-badge" data-category="Griller">0</span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+        <!-- Search bar and category filters removed -->
 
         <section class="py-24">
             <div class="mx-auto max-w-4xl px-6">
@@ -349,58 +334,7 @@
     </div>
 </div>
 
-<script>
-    // 1. Modal Functions
-    function openApplication(jobTitle) {
-        const modal = document.getElementById('applicationModal');
-        const container = document.getElementById('modalContainer');
-        const titleDisplay = document.getElementById('modalJobTitle');
-        
-        if (titleDisplay) titleDisplay.innerText = jobTitle;
-        
-        modal.classList.remove('invisible', 'opacity-0');
-        container.classList.remove('scale-95');
-        container.classList.add('scale-100');
-        document.body.style.overflow = 'hidden';
-    }
-
-    function closeModal() {
-        const modal = document.getElementById('applicationModal');
-        const container = document.getElementById('modalContainer');
-        
-        modal.classList.add('invisible', 'opacity-0');
-        container.classList.add('scale-95');
-        container.classList.remove('scale-100');
-        document.body.style.overflow = 'auto';
-    }
-
-    // 2. File Input Label Update
-    document.getElementById('resumeInput').addEventListener('change', function(e) {
-        const fileName = e.target.files[0]?.name || "Attach Resume (PDF/DOCX)";
-        document.getElementById('fileNameDisplay').innerText = fileName;
-        document.getElementById('fileNameDisplay').classList.add('text-orange-600', 'border-orange-500');
-    });
-
-    // 3. Form Submission & Toast
-    document.getElementById('applyForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        // Show Success Toast
-        const toast = document.getElementById('successToast');
-        toast.classList.add('show');
-        
-        // Close Modal
-        closeModal();
-        
-        // Reset and hide toast after 4 seconds
-        setTimeout(() => {
-            toast.classList.remove('show');
-            this.reset();
-            document.getElementById('fileNameDisplay').innerText = "Attach Resume (PDF/DOCX)";
-            document.getElementById('fileNameDisplay').classList.remove('text-orange-600', 'border-orange-500');
-        }, 4000);
-    });
-</script>
+<!-- Jobs are rendered by the script near the bottom using localStorage -->
 
     <footer class="bg-orange-600 text-white relative overflow-hidden border-t border-orange-400">
         <div class="absolute inset-0 opacity-10 pointer-events-none">
@@ -471,33 +405,52 @@
     </footer>
 
     <script>
-    // 1. Unified Data Source
-    const jobs = [
-        { id: 12, title: 'OSP TECHNICIAN', location: 'NCR', type: 'Full-time', salary: 'TBD', category: 'Technician', posted: 'Just now', description: 'Expertise in outside plant fiber installations and infrastructure maintenance.' },
-        { id: 13, title: 'TECHNICAL CREW', location: 'NCR', type: 'Full-time', salary: 'TBD', category: 'Technician', posted: 'Just now', description: 'Technical support and operational equipment maintenance for specialized sites.' },
-        { id: 1, title: 'SALES CLERK', location: 'Moa | Megamall | Makati', type: 'Full-time', salary: 'TBD', category: 'Retail Sales Associate', posted: '2 days ago', description: 'Experience in retail customer service and floor management.' },
-        { id: 2, title: 'SALES STAFF', location: 'Baguio | Cavite | Cebu', type: 'Full-time', salary: 'TBD', category: 'Retail Sales Associate', posted: '3 days ago', description: 'Assisting customers and managing store displays.' },
-        { id: 3, title: 'WAREHOUSE STAFF', location: 'Mandaluyong', type: 'Full-time', salary: 'TBD', category: 'Warehouse Staff', posted: '1 day ago', description: 'Loading, unloading, and organizing inventory in the storage facility.' },
-        { id: 4, title: 'CSR REPRESENTATIVE', location: 'Ortigas', type: 'Full-time', salary: 'TBD', category: 'BPO', posted: '5 days ago', description: 'Handle inbound calls and provide technical support to international clients.' },
-        { id: 5, title: 'SERVICE CREW', location: 'Taytay | Marikina | Taguig', type: 'Contract', salary: 'TBD', category: 'Crew', posted: '1 hour ago', description: 'Fast-paced environment handling customer orders and dining area cleanliness.' },
-        { id: 6, title: 'CASHIER', location: 'Taytay | Marikina', type: 'Full-time', salary: 'TBD', category: 'Cashiering', posted: '4 days ago', description: 'Efficiently handling transactions and point-of-sale systems.' },
-        { id: 14, title: 'COUNTER', location: 'Taytay | Marikina', type: 'Full-time', salary: 'TBD', category: 'Cashiering', posted: 'Just now', description: 'Assisting with front-end customer transactions and maintaining checkout efficiency.' },
-        { id: 8, title: 'STOCK MAN', location: 'Taguig', type: 'Full-time', salary: 'TBD', category: 'Fastfood Inventory', posted: '2 days ago', description: 'Oversee daily stock movement and inventory audits.' },
-        { id: 9, title: 'GRILL MAN', location: 'Marikina', type: 'Full-time', salary: 'TBD', category: 'Griller', posted: '2 days ago', description: 'Expertise in food preparation and high-volume grilling operations.' },
-        { id: 10, title: 'MAINTENANCE', location: 'Quezon City', type: 'Full-time', salary: 'TBD', category: 'Maintenance', posted: '2 days ago', description: 'Ensure facility equipment and physical structure are in top condition.' },
-        { id: 11, title: 'KITCHEN STAFF (DISHWASHER)', location: 'Taytay', type: 'Full-time', salary: 'TBD', category: 'Kitchen', posted: '2 days ago', description: 'Back-of-house support, food prep, and dishwashing duties.' }
+    const STORAGE_KEY = 'garuda_jobs_data';
+
+    // 1. Unified Data Source (default seeds for first load)
+    const now = Date.now();
+    const HOUR = 60 * 60 * 1000;
+    const DAY = 24 * HOUR;
+
+    const defaultJobs = [
+        { id: 12, title: 'OSP TECHNICIAN', location: 'NCR', type: 'Full-time', salary: 'TBD', category: 'Technician', postedAt: now - 30 * 60 * 1000, description: 'Expertise in outside plant fiber installations and infrastructure maintenance.' }, // 30 mins ago
+        { id: 13, title: 'TECHNICAL CREW', location: 'NCR', type: 'Full-time', salary: 'TBD', category: 'Technician', postedAt: now - 45 * 60 * 1000, description: 'Technical support and operational equipment maintenance for specialized sites.' }, // 45 mins ago
+        { id: 1, title: 'SALES CLERK', location: 'Moa | Megamall | Makati', type: 'Full-time', salary: 'TBD', category: 'Retail Sales Associate', postedAt: now - 2 * DAY, description: 'Experience in retail customer service and floor management.' },
+        { id: 2, title: 'SALES STAFF', location: 'Baguio | Cavite | Cebu', type: 'Full-time', salary: 'TBD', category: 'Retail Sales Associate', postedAt: now - 3 * DAY, description: 'Assisting customers and managing store displays.' },
+        { id: 3, title: 'WAREHOUSE STAFF', location: 'Mandaluyong', type: 'Full-time', salary: 'TBD', category: 'Warehouse Staff', postedAt: now - 1 * DAY, description: 'Loading, unloading, and organizing inventory in the storage facility.' },
+        { id: 4, title: 'CSR REPRESENTATIVE', location: 'Ortigas', type: 'Full-time', salary: 'TBD', category: 'BPO', postedAt: now - 5 * DAY, description: 'Handle inbound calls and provide technical support to international clients.' },
+        { id: 5, title: 'SERVICE CREW', location: 'Taytay | Marikina | Taguig', type: 'Contract', salary: 'TBD', category: 'Crew', postedAt: now - 1 * HOUR, description: 'Fast-paced environment handling customer orders and dining area cleanliness.' },
+        { id: 6, title: 'CASHIER', location: 'Taytay | Marikina', type: 'Full-time', salary: 'TBD', category: 'Cashiering', postedAt: now - 4 * DAY, description: 'Efficiently handling transactions and point-of-sale systems.' },
+        { id: 14, title: 'COUNTER', location: 'Taytay | Marikina', type: 'Full-time', salary: 'TBD', category: 'Cashiering', postedAt: now - 10 * 60 * 1000, description: 'Assisting with front-end customer transactions and maintaining checkout efficiency.' }, // 10 mins ago
+        { id: 8, title: 'STOCK MAN', location: 'Taguig', type: 'Full-time', salary: 'TBD', category: 'Fastfood Inventory', postedAt: now - 2 * DAY, description: 'Oversee daily stock movement and inventory audits.' },
+        { id: 9, title: 'GRILL MAN', location: 'Marikina', type: 'Full-time', salary: 'TBD', category: 'Griller', postedAt: now - 2 * DAY, description: 'Expertise in food preparation and high-volume grilling operations.' },
+        { id: 10, title: 'MAINTENANCE', location: 'Quezon City', type: 'Full-time', salary: 'TBD', category: 'Maintenance', postedAt: now - 2 * DAY, description: 'Ensure facility equipment and physical structure are in top condition.' },
+        { id: 11, title: 'KITCHEN STAFF (DISHWASHER)', location: 'Taytay', type: 'Full-time', salary: 'TBD', category: 'Kitchen', postedAt: now - 2 * DAY, description: 'Back-of-house support, food prep, and dishwashing duties.' }
     ];
 
-    let currentCategory = 'All';
-    let filteredJobs = [...jobs];
+    let jobs = [];
+
+    function loadJobs() {
+        const stored = localStorage.getItem(STORAGE_KEY);
+        if (stored) {
+            return JSON.parse(stored);
+        }
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(defaultJobs));
+        return defaultJobs;
+    }
 
     // 2. Initialization
     window.addEventListener('DOMContentLoaded', () => {
-        updateCategoryCounts();
+        jobs = loadJobs();
         renderJobs();
         animateValue("stat-placements", 0, 850, 2000, "+");
         animateValue("stat-satisfaction", 0, 98, 2000, "%");
         setupFormListeners();
+
+        // Refresh relative times every 60 seconds
+        setInterval(() => {
+            renderJobs();
+        }, 60000);
     });
 
     // 3. Core Logic: Rendering & Filtering
@@ -506,7 +459,7 @@
         const countLabel = document.getElementById('jobCount');
         const noResults = document.getElementById('noResults');
         
-        if (filteredJobs.length === 0) {
+        if (!jobs.length) {
             container.innerHTML = '';
             if (noResults) noResults.classList.remove('hidden');
             countLabel.textContent = '0 Matches';
@@ -514,15 +467,15 @@
         }
         
         if (noResults) noResults.classList.add('hidden');
-        countLabel.textContent = `${filteredJobs.length} active opportunities`;
+        countLabel.textContent = `${jobs.length} active opportunities`;
         
-        container.innerHTML = filteredJobs.map(job => `
+        container.innerHTML = jobs.map(job => `
             <div class="job-card-layered p-8 md:p-10 rounded-[2.5rem] group border border-orange-50 bg-white shadow-sm transition-all hover:shadow-xl">
                 <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
                     <div class="flex-1">
                         <div class="flex items-center gap-3 mb-4">
                             <span class="bg-orange-50 text-[10px] font-black text-orange-600 px-3 py-1 rounded-full uppercase tracking-widest border border-orange-100">${job.category}</span>
-                            <span class="text-[10px] font-bold text-stone-400 uppercase tracking-widest">${job.posted}</span>
+                            <span class="text-[10px] font-bold text-stone-400 uppercase tracking-widest">${formatRelativeTime(job.postedAt || job.posted)}</span>
                         </div>
                         <h3 class="text-3xl font-black text-orange-950 mb-3 tracking-tighter group-hover:text-orange-600 transition-colors">${job.title}</h3>
                         <div class="flex flex-wrap gap-6 mb-6">
@@ -538,25 +491,6 @@
                 </div>
             </div>
         `).join('');
-    }
-
-    function filterByCategory(category, el) {
-        currentCategory = category;
-        document.querySelectorAll('.category-pill').forEach(btn => btn.classList.remove('active'));
-        el.classList.add('active');
-        applyFilters();
-    }
-
-    function applyFilters() {
-        const query = document.getElementById('searchInput').value.toLowerCase();
-        filteredJobs = jobs.filter(job => {
-            const matchesSearch = job.title.toLowerCase().includes(query) || 
-                                 job.location.toLowerCase().includes(query) ||
-                                 job.category.toLowerCase().includes(query);
-            const matchesCategory = currentCategory === 'All' || job.category === currentCategory;
-            return matchesSearch && matchesCategory;
-        });
-        renderJobs();
     }
 
     // 4. Modal & Form Logic
@@ -603,6 +537,30 @@
     }
 
     // 5. Utility Functions
+    function formatRelativeTime(value) {
+        // If we have a numeric timestamp, compute relative difference
+        if (typeof value === 'number') {
+            const diffMs = Date.now() - value;
+            const minutes = Math.floor(diffMs / (60 * 1000));
+            const hours = Math.floor(diffMs / (60 * 60 * 1000));
+            const days = Math.floor(diffMs / (24 * 60 * 60 * 1000));
+
+            if (minutes < 1) return 'Just now';
+            if (minutes < 60) return `${minutes} min${minutes > 1 ? 's' : ''} ago`;
+            if (hours < 24) return `${hours} hour${hours > 1 ? 's' : ''} ago`;
+            if (days < 30) return `${days} day${days > 1 ? 's' : ''} ago`;
+
+            const months = Math.floor(days / 30);
+            if (months < 12) return `${months} month${months > 1 ? 's' : ''} ago`;
+
+            const years = Math.floor(months / 12);
+            return `${years} year${years > 1 ? 's' : ''} ago`;
+        }
+
+        // Fallback: if it was an older string label, just show it
+        return value || '';
+    }
+
     function animateValue(id, start, end, duration, suffix = "") {
         const obj = document.getElementById(id);
         if (!obj) return;
@@ -618,10 +576,5 @@
         window.requestAnimationFrame(step);
     }
 
-    function updateCategoryCounts() {
-        document.querySelectorAll('.count-badge').forEach(badge => {
-            const cat = badge.getAttribute('data-category');
-            badge.textContent = cat === 'All' ? jobs.length : jobs.filter(j => j.category === cat).length;
-        });
-    }
+    // No category counts needed (filters removed)
 </script>

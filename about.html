@@ -90,32 +90,47 @@
     <div id="scroll-progress"></div>
 
     <header class="bg-white/80 backdrop-blur-xl shadow-sm sticky top-0 z-50 border-b border-orange-100">
-        <nav class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div class="flex h-20 items-center justify-between">
-                <a href="index.html" class="flex items-center gap-3 group">
-                    <img src="logo.png" alt="Garuda Logo" class="h-12 w-12 object-contain transition-all duration-500 group-hover:scale-125 group-hover:rotate-[360deg]">
-                    <span class="text-2xl font-extrabold tracking-tight text-slate-900">
-                        Garuda <span class="text-orange-600">Recruitment Agency</span>
-                    </span>
-                </a>
-                <div class="hidden md:flex md:gap-10">
-                    <a href="index.html" class="text-sm font-bold text-gray-600 hover:text-orange-500 transition-colors">Home</a>
-                    <a href="about.html" class="text-sm font-bold text-slate-900 transition-colors relative after:content-[''] after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-0.5 after:bg-orange-500">About</a>
-                    <a href="jobs.html" class="text-sm font-bold text-gray-600 hover:text-orange-500 transition-colors">Jobs</a>
-                    <a href="contact.html" class="text-sm font-bold text-gray-600 hover:text-orange-500 transition-colors">Contact</a>
+    <nav class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="flex h-20 items-center justify-between">
+            <a href="index.html" class="flex items-center gap-3 group">
+                <img src="logo.png" alt="Garuda Logo" class="h-12 w-12 object-contain transition-all duration-500 group-hover:scale-125 group-hover:rotate-[360deg]">
+                <span class="text-2xl font-extrabold tracking-tight text-slate-900">
+                    Garuda <span class="text-orange-600">Recruitment Agency</span>
+                </span>
+            </a>
+
+            <div class="hidden md:flex items-center gap-10">
+                <div class="flex gap-10">
+                    <a href="index.html" class="text-sm font-bold text-gray-500 hover:text-slate-900 transition-colors">Home</a>
+                    <a href="about.html" class="text-sm font-bold text-slate-900 transition-colors relative after:content-[''] after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-0.5 after:bg-slate-900">About</a>
+                    <a href="jobs.html" class="text-sm font-bold text-gray-500 hover:text-slate-900 transition-colors">Jobs</a>
+                    <a href="contact.html" class="text-sm font-bold text-gray-500 hover:text-slate-900 transition-colors">Contact</a>
                 </div>
-                <button class="md:hidden p-2 text-slate-900" onclick="toggleMobileMenu()">
-                    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
-                </button>
+
+                <a href="login.html" class="flex items-center gap-2 px-5 py-2.5 bg-slate-950 text-white hover:bg-orange-600 rounded-xl transition-all duration-300 group shadow-lg shadow-slate-200">
+                    <svg class="h-4 w-4 text-orange-400 group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 11c0 3.517-1.009 6.799-2.753 9.571m-3.44-2.04l.054-.09A13.916 13.916 0 008 11a4 4 0 118 0c0 1.017-.07 2.019-.203 3m-2.118 6.844A21.88 21.88 0 0015.171 17m3.839 1.132c.645-2.266.99-4.659.99-7.132A8 8 0 008 4.07M3 15.364c.64-1.319 1-2.8 1-4.364 0-1.457.39-2.823 1.07-4"></path>
+                    </svg>
+                    <span class="text-[10px] font-black uppercase tracking-widest">TA Portal</span>
+                </a>
             </div>
-            <div id="mobile-menu" class="hidden md:hidden pb-4">
-                <a href="index.html" class="block py-2 text-base font-bold text-gray-700">Home</a>
-                <a href="about.html" class="block py-2 text-base font-bold text-slate-900">About</a>
-                <a href="jobs.html" class="block py-2 text-base font-bold text-gray-700">Jobs</a>
-                <a href="contact.html" class="block py-2 text-base font-bold text-gray-700">Contact</a>
-            </div>
-        </nav>
-    </header>
+
+            <button class="md:hidden p-2 text-slate-900" onclick="toggleMobileMenu()">
+                <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+
+        <div id="mobile-menu" class="hidden md:hidden pb-4">
+            <a href="index.html" class="block py-2 text-base font-bold text-gray-500">Home</a>
+            <a href="about.html" class="block py-2 text-base font-bold text-slate-900">About</a>
+            <a href="jobs.html" class="block py-2 text-base font-bold text-gray-500">Jobs</a>
+            <a href="contact.html" class="block py-2 text-base font-bold text-gray-500">Contact</a>
+            <a href="login.html" class="block py-3 mt-2 text-center text-sm font-black uppercase tracking-widest bg-orange-600 text-white rounded-xl">TA Portal</a>
+        </div>
+    </nav>
+</header>
 
     <main class="flex-1">
         <section class="relative overflow-hidden bg-slate-900 py-32">
@@ -138,30 +153,39 @@
             </div>
         </section>
 
-        <section class="bg-white py-24 relative overflow-hidden">
-            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
-                    <div class="relative group">
-                        <div class="absolute -bottom-10 -left-10 w-40 h-40 bg-orange-100 rounded-full blur-3xl opacity-50"></div>
-                        <div class="image-accent relative z-10 w-full max-w-md mx-auto">
-                            <img src="CEO.png" alt="Jessie Lim King Bon - CEO" class="w-full h-auto object-cover rounded-[2rem] shadow-[0_50px_100px_-20px_rgba(0,0,0,0.3)] transition-all duration-700 group-hover:scale-105">
-                        </div>
-                    </div>
-                    <div>
-                        <div class="mb-4 flex items-center gap-4">
-                            <div class="h-px w-12 bg-orange-500"></div>
-                            <span class="text-orange-600 font-black uppercase tracking-widest text-sm">Leadership</span>
-                        </div>
-                        <h2 class="text-5xl text-gray-900 mb-4 font-black tracking-tight">Jessie Lim King Bon</h2>
-                        <p class="text-orange-600 font-bold text-2xl mb-10 italic">Chief Executive Officer (CEO)</p>
-                        <div class="space-y-8 text-xl text-gray-600 leading-relaxed font-medium">
-                            <p>Under the visionary leadership of <span class="text-slate-900 font-extrabold underline decoration-orange-500/30 decoration-8 underline-offset-4">Jessie Lim King Bon</span>, Garuda Recruitment Agency has redefined the standards of talent acquisition in the Philippines.</p>
-                            <p>With a deep commitment to ethical recruitment and national progress, our Founder has steered the agency toward becoming a premier bridge for Filipino professionals seeking global success.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+        <section class="bg-white py-32 relative overflow-hidden">
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none select-none opacity-[0.03] whitespace-nowrap">
+        <span class="text-[20rem] font-black uppercase tracking-tighter text-slate-900">LEADERSHIP</span>
+    </div>
+
+    <div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+        <div class="inline-flex items-center gap-4 mb-12">
+            <div class="h-px w-12 bg-orange-500"></div>
+            <span class="text-orange-600 font-black uppercase tracking-[0.3em] text-sm">Founder's Vision</span>
+            <div class="h-px w-12 bg-orange-500"></div>
+        </div>
+
+        <h2 class="text-7xl md:text-8xl text-slate-950 mb-6 font-black tracking-tighter leading-none">
+            Jessie Lim <span class="text-orange-600">King Bon</span>
+        </h2>
+        <p class="text-slate-400 font-bold text-xl mb-16 uppercase tracking-[0.5em]">Chief Executive Officer</p>
+
+        <div class="space-y-10 text-2xl text-slate-700 leading-relaxed font-medium">
+            <p class="relative">
+                <span class="absolute -left-8 -top-8 text-8xl text-orange-100 font-serif">“</span>
+                Under the visionary leadership of <span class="text-slate-900 font-extrabold border-b-4 border-orange-500/20">Jessie Lim King Bon</span>, Garuda Recruitment Agency has redefined the standards of talent acquisition in the Philippines.
+            </p>
+            <p>
+                With a deep commitment to ethical recruitment and national progress, our Founder has steered the agency toward becoming a premier bridge for Filipino professionals seeking global success.
+            </p>
+        </div>
+        
+        <div class="mt-20 pt-10 border-t border-slate-100 inline-block">
+            <p class="font-black uppercase tracking-widest text-slate-900">Garuda Recruitment Agency</p>
+            <p class="text-orange-600 text-xs font-bold uppercase tracking-widest mt-1">Established 2019</p>
+        </div>
+    </div>
+</section>
 
         <section class="bg-slate-50 py-32 relative neural-grid">
             <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
