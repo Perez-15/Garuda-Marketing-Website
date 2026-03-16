@@ -8,7 +8,6 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
-        
         body { font-family: 'Plus Jakarta Sans', sans-serif; }
 
         .neural-grid {
@@ -57,32 +56,23 @@
                         <i class="fa-solid fa-id-badge absolute left-5 top-1/2 -translate-y-1/2 text-gray-400"></i>
                         <input type="text" id="staffID" required 
                                class="w-full pl-12 pr-6 py-4 bg-white border border-gray-100 rounded-2xl focus:ring-4 focus:ring-orange-100 focus:border-orange-600 outline-none transition-all font-medium text-sm" 
-                               placeholder="Email">
+                               placeholder="admin1@garuda.com">
                     </div>
                 </div>
 
                 <div class="space-y-2">
-    <label class="text-[10px] font-black uppercase tracking-[0.2em] text-orange-600 ml-1">Secure Password</label>
-        <div class="relative group">
-          <div class="absolute left-5 top-1/2 -translate-y-1/2 flex items-center pointer-events-none">
-            <i class="fa-solid fa-key text-gray-400 group-focus-within:text-orange-600 transition-colors duration-300"></i>
-            </div>
-        <input type="password" 
-               id="staffPass" 
-               required 
-               class="w-full pl-12 pr-12 py-4 bg-white border border-gray-100 rounded-2xl 
-                      focus:ring-4 focus:ring-orange-100 focus:border-orange-600 outline-none 
-                      transition-all font-medium text-sm placeholder:text-gray-300" 
-               placeholder="••••••••">
-
-        <div class="absolute right-5 top-1/2 -translate-y-1/2 pointer-events-none">
-            <i class="fa-solid fa-lock-hashtag text-[10px] text-gray-300 group-focus-within:text-orange-400 opacity-50 transition-all"></i>
+                    <label class="text-[10px] font-black uppercase tracking-[0.2em] text-orange-600 ml-1">Secure Password</label>
+                    <div class="relative group">
+                        <div class="absolute left-5 top-1/2 -translate-y-1/2 flex items-center pointer-events-none">
+                            <i class="fa-solid fa-key text-gray-400 group-focus-within:text-orange-600 transition-colors duration-300"></i>
+                        </div>
+                        <input type="password" id="staffPass" required 
+                               class="w-full pl-12 pr-12 py-4 bg-white border border-gray-100 rounded-2xl focus:ring-4 focus:ring-orange-100 focus:border-orange-600 outline-none transition-all font-medium text-sm placeholder:text-gray-300" 
+                               placeholder="••••••••">
+                        <div class="absolute right-5 top-1/2 -translate-y-1/2 pointer-events-none">
+                            <i class="fa-solid fa-lock-hashtag text-[10px] text-gray-300 group-focus-within:text-orange-400 opacity-50 transition-all"></i>
                         </div>
                     </div>
-                </div>
-
-                <div class="flex items-center justify-between px-1">
-                    <label class="flex items-center gap-2 cursor-pointer group">
                 </div>
 
                 <button type="submit" id="authBtn" 
@@ -92,10 +82,7 @@
             </form>
         </div>
 
-        <div class="text-center mt-8 space-y-4">
-            <p class="text-gray-400 text-[10px] font-bold uppercase tracking-[0.3em]">
-                Authorized Personnel Only
-            </p>
+        <div class="text-center mt-8">
             <a href="index.html" class="inline-flex items-center gap-2 text-gray-500 hover:text-orange-600 text-[10px] font-black uppercase tracking-widest transition-colors">
                 <i class="fa-solid fa-arrow-left"></i> Return to Homepage
             </a>
@@ -103,54 +90,46 @@
     </div>
 
     <script>
+        const userDatabase = [
+            { email: "admin1@garuda.com", pass: "Garuda2026!1" },
+            { email: "admin2@garuda.com", pass: "Garuda2026!2" },
+            { email: "admin3@garuda.com", pass: "Garuda2026!3" },
+            { email: "admin4@garuda.com", pass: "Garuda2026!4" },
+            { email: "ta@garuda.com", pass: "TA2026!!" }
+        ];
+
         function handleTALogin(event) {
             event.preventDefault();
-            
-            const staffID = document.getElementById('staffID').value.trim();
+            const staffID = document.getElementById('staffID').value.trim().toLowerCase();
             const staffPass = document.getElementById('staffPass').value;
             const btn = document.getElementById('authBtn');
 
-            // Authorized Credentials List
-            // NOTE: ID check is case-insensitive and trims spaces for convenience.
-            const authorizedUsers = [
-                { id: 'TA@garuda.com', pass: 'TA2026!!' },
-                { id: 'garuda123@garuda.com', pass: 'GarudaTA2026!!' },
-                { id: '123garuda@garuda.com', pass: 'GarudaTA@2026!!' } // matches the placeholder style
-            ];
+            const user = userDatabase.find(u => u.email === staffID && u.pass === staffPass);
 
             // UI Loading State
-            const originalContent = btn.innerHTML;
-            btn.innerHTML = '<i class="fa-solid fa-spinner animate-spin text-lg"></i> Verifying...';
+            btn.innerHTML = '<i class="fa-solid fa-spinner animate-spin"></i> Verifying...';
             btn.disabled = true;
 
             setTimeout(() => {
-                // Validate credentials (ID is case-insensitive)
-                const normalizedId = staffID.toLowerCase();
-                const userMatch = authorizedUsers.find(
-                    user => user.id === normalizedId && user.pass === staffPass
-                );
-
-                if (userMatch) {
+                if (user) {
                     btn.classList.replace('bg-gray-900', 'bg-green-600');
                     btn.innerHTML = 'Access Granted <i class="fa-solid fa-check"></i>';
                     
-                    // Smooth redirect to the dashboard
+                    // Redirect directly to dashboard
                     setTimeout(() => {
-                        window.location.href = 'admin-dashboard.html'; 
+                        window.location.replace('./admin-dashboard.html');
                     }, 800);
                 } else {
-                    // Error Handling
                     btn.classList.replace('bg-gray-900', 'bg-red-600');
                     btn.innerHTML = 'Access Denied <i class="fa-solid fa-xmark"></i>';
                     
                     setTimeout(() => {
-                        alert('Invalid Staff ID or Password. Please contact IT if this persists.');
                         btn.classList.replace('bg-red-600', 'bg-gray-900');
-                        btn.innerHTML = originalContent;
+                        btn.innerHTML = 'Authenticate <i class="fa-solid fa-fingerprint text-lg"></i>';
                         btn.disabled = false;
-                    }, 500);
+                    }, 2000);
                 }
-            }, 1500);
+            }, 1000);
         }
     </script>
 </body>
