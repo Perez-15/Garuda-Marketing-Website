@@ -57,26 +57,32 @@
                         <i class="fa-solid fa-id-badge absolute left-5 top-1/2 -translate-y-1/2 text-gray-400"></i>
                         <input type="text" id="staffID" required 
                                class="w-full pl-12 pr-6 py-4 bg-white border border-gray-100 rounded-2xl focus:ring-4 focus:ring-orange-100 focus:border-orange-600 outline-none transition-all font-medium text-sm" 
-                               placeholder="garuda-ta-01">
+                               placeholder="Email">
                     </div>
                 </div>
 
                 <div class="space-y-2">
-                    <label class="text-[10px] font-black uppercase tracking-[0.2em] text-orange-600 ml-1">Secure Password</label>
-                    <div class="relative">
-                        <i class="fa-solid fa-shield-halved absolute left-5 top-1/2 -translate-y-1/2 text-gray-400"></i>
-                        <input type="password" id="staffPass" required 
-                               class="w-full pl-12 pr-6 py-4 bg-white border border-gray-100 rounded-2xl focus:ring-4 focus:ring-orange-100 focus:border-orange-600 outline-none transition-all font-medium text-sm" 
-                               placeholder="••••••••">
+    <label class="text-[10px] font-black uppercase tracking-[0.2em] text-orange-600 ml-1">Secure Password</label>
+        <div class="relative group">
+          <div class="absolute left-5 top-1/2 -translate-y-1/2 flex items-center pointer-events-none">
+            <i class="fa-solid fa-key text-gray-400 group-focus-within:text-orange-600 transition-colors duration-300"></i>
+            </div>
+        <input type="password" 
+               id="staffPass" 
+               required 
+               class="w-full pl-12 pr-12 py-4 bg-white border border-gray-100 rounded-2xl 
+                      focus:ring-4 focus:ring-orange-100 focus:border-orange-600 outline-none 
+                      transition-all font-medium text-sm placeholder:text-gray-300" 
+               placeholder="••••••••">
+
+        <div class="absolute right-5 top-1/2 -translate-y-1/2 pointer-events-none">
+            <i class="fa-solid fa-lock-hashtag text-[10px] text-gray-300 group-focus-within:text-orange-400 opacity-50 transition-all"></i>
+                        </div>
                     </div>
                 </div>
 
                 <div class="flex items-center justify-between px-1">
                     <label class="flex items-center gap-2 cursor-pointer group">
-                        <input type="checkbox" class="w-4 h-4 accent-orange-600 rounded">
-                        <span class="text-[10px] text-gray-500 font-bold uppercase tracking-wider group-hover:text-slate-900 transition-colors">Remember Me</span>
-                    </label>
-                    <a href="#" class="text-[10px] text-orange-600 font-black uppercase tracking-wider hover:underline">Forgot?</a>
                 </div>
 
                 <button type="submit" id="authBtn" 
