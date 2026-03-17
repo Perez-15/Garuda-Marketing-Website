@@ -8,7 +8,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
-        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; overflow: hidden; }
 
         .neural-grid {
             position: fixed;
@@ -19,11 +19,52 @@
             z-index: -1;
         }
 
+        /* UNIQUE DESIGN: Floating Ambient Depth */
+        .ambient-glow {
+            position: fixed;
+            width: 50vw;
+            height: 50vw;
+            background: radial-gradient(circle, rgba(234, 88, 12, 0.08) 0%, transparent 70%);
+            border-radius: 50%;
+            z-index: -2;
+            filter: blur(60px);
+            animation: float 20s infinite alternate ease-in-out;
+        }
+
+        @keyframes float {
+            0% { transform: translate(-10%, -10%) scale(1); }
+            100% { transform: translate(20%, 10%) scale(1.2); }
+        }
+
+        /* UNIQUE DESIGN: Scanning Terminal Line */
+        .login-glass::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 2px;
+            background: linear-gradient(90deg, transparent, #ea580c, transparent);
+            opacity: 0.2;
+            animation: scan 4s linear infinite;
+        }
+
+        @keyframes scan {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(400px); }
+        }
+
         .login-glass {
             background: rgba(255, 255, 255, 0.75);
             backdrop-filter: blur(15px);
             border: 1px solid rgba(255, 255, 255, 0.8);
             box-shadow: 0 25px 50px -12px rgba(234, 88, 12, 0.15);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* UNIQUE DESIGN: Input focus ring animation */
+        input:focus {
+            box-shadow: 0 0 0 4px rgba(234, 88, 12, 0.1);
+            transform: translateY(-1px);
         }
 
         .reveal {
@@ -34,29 +75,40 @@
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
+        
+        /* NEW: Hover state for the button icon */
+        #authBtn:hover i {
+            transform: scale(1.2) rotate(10deg);
+            color: #fff;
+        }
     </style>
 </head>
 <body class="bg-slate-50 min-h-screen flex items-center justify-center p-4">
     <div class="neural-grid"></div>
+    <div class="ambient-glow" style="top: -10%; left: -10%;"></div>
+    <div class="ambient-glow" style="bottom: -10%; right: -10%; background: radial-gradient(circle, rgba(59, 130, 246, 0.05) 0%, transparent 70%);"></div>
 
     <div class="w-full max-w-md reveal">
         <div class="text-center mb-8">
-            <a href="index.html" class="inline-block transition-transform hover:scale-110 duration-500">
+            <a href="index.html" class="inline-block transition-all hover:scale-110 duration-500 hover:drop-shadow-[0_0_15px_rgba(234,88,12,0.4)]">
                 <img src="logo.png" alt="Garuda" class="h-20 w-20 mx-auto mb-4 object-contain">
             </a>
             <h1 class="text-3xl font-black text-gray-900 tracking-tighter uppercase">TA-Management</h1>
-            <p class="text-gray-500 font-medium text-sm">Internal Administration Access</p>
+            <p class="text-gray-500 font-medium text-sm flex items-center justify-center gap-2">
+                <span class="w-2 h-2 bg-orange-500 rounded-full animate-pulse"></span>
+                Internal Administration Access
+            </p>
         </div>
 
         <div class="login-glass p-10 rounded-[2.5rem]">
             <form id="loginForm" onsubmit="handleTALogin(event)" class="space-y-6">
                 <div class="space-y-2">
                     <label class="text-[10px] font-black uppercase tracking-[0.2em] text-orange-600 ml-1">Staff ID / Email</label>
-                    <div class="relative">
-                        <i class="fa-solid fa-id-badge absolute left-5 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                    <div class="relative group">
+                        <i class="fa-solid fa-id-badge absolute left-5 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-orange-600 transition-colors"></i>
                         <input type="text" id="staffID" required 
-                               class="w-full pl-12 pr-6 py-4 bg-white border border-gray-100 rounded-2xl focus:ring-4 focus:ring-orange-100 focus:border-orange-600 outline-none transition-all font-medium text-sm" 
-                               placeholder="Email">
+                               class="w-full pl-12 pr-6 py-4 bg-white/80 border border-gray-100 rounded-2xl focus:ring-4 focus:ring-orange-100 focus:border-orange-600 outline-none transition-all font-medium text-sm" 
+                               placeholder="Email Address">
                     </div>
                 </div>
 
@@ -67,7 +119,7 @@
                             <i class="fa-solid fa-key text-gray-400 group-focus-within:text-orange-600 transition-colors duration-300"></i>
                         </div>
                         <input type="password" id="staffPass" required 
-                               class="w-full pl-12 pr-12 py-4 bg-white border border-gray-100 rounded-2xl focus:ring-4 focus:ring-orange-100 focus:border-orange-600 outline-none transition-all font-medium text-sm placeholder:text-gray-300" 
+                               class="w-full pl-12 pr-12 py-4 bg-white/80 border border-gray-100 rounded-2xl focus:ring-4 focus:ring-orange-100 focus:border-orange-600 outline-none transition-all font-medium text-sm placeholder:text-gray-300" 
                                placeholder="••••••••">
                         <div class="absolute right-5 top-1/2 -translate-y-1/2 pointer-events-none">
                             <i class="fa-solid fa-lock-hashtag text-[10px] text-gray-300 group-focus-within:text-orange-400 opacity-50 transition-all"></i>
@@ -76,14 +128,16 @@
                 </div>
 
                 <button type="submit" id="authBtn" 
-                        class="w-full py-5 bg-gray-900 text-white rounded-2xl font-black uppercase tracking-[0.2em] hover:bg-orange-600 transition-all duration-500 shadow-xl shadow-orange-100 flex items-center justify-center gap-3 active:scale-95">
-                    Authenticate <i class="fa-solid fa-fingerprint text-lg"></i>
+                        class="w-full py-5 bg-gray-900 text-white rounded-2xl font-black uppercase tracking-[0.2em] hover:bg-orange-600 transition-all duration-500 shadow-xl shadow-orange-100 flex items-center justify-center gap-3 active:scale-95 overflow-hidden relative group">
+                    <span class="relative z-10">Authenticate</span>
+                    <i class="fa-solid fa-fingerprint text-lg relative z-10 transition-transform"></i>
+                    <div class="absolute top-0 -left-full w-full h-full bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-[-20deg] group-hover:left-full transition-all duration-1000"></div>
                 </button>
             </form>
         </div>
 
         <div class="text-center mt-8">
-            <a href="index.html" class="inline-flex items-center gap-2 text-gray-500 hover:text-orange-600 text-[10px] font-black uppercase tracking-widest transition-colors">
+            <a href="index.html" class="inline-flex items-center gap-2 text-gray-400 hover:text-orange-600 text-[10px] font-black uppercase tracking-[0.3em] transition-all hover:tracking-[0.4em]">
                 <i class="fa-solid fa-arrow-left"></i> Return to Homepage
             </a>
         </div>
@@ -106,7 +160,6 @@
 
             const user = userDatabase.find(u => u.email === staffID && u.pass === staffPass);
 
-            // UI Loading State
             btn.innerHTML = '<i class="fa-solid fa-spinner animate-spin"></i> Verifying...';
             btn.disabled = true;
 
@@ -115,7 +168,6 @@
                     btn.classList.replace('bg-gray-900', 'bg-green-600');
                     btn.innerHTML = 'Access Granted <i class="fa-solid fa-check"></i>';
                     
-                    // Redirect directly to dashboard
                     setTimeout(() => {
                         window.location.replace('./admin-dashboard.html');
                     }, 800);
@@ -123,6 +175,14 @@
                     btn.classList.replace('bg-gray-900', 'bg-red-600');
                     btn.innerHTML = 'Access Denied <i class="fa-solid fa-xmark"></i>';
                     
+                    // Add a shake effect to the card on failure
+                    document.querySelector('.login-glass').animate([
+                        { transform: 'translateX(0)' },
+                        { transform: 'translateX(-10px)' },
+                        { transform: 'translateX(10px)' },
+                        { transform: 'translateX(0)' }
+                    ], { duration: 300 });
+
                     setTimeout(() => {
                         btn.classList.replace('bg-red-600', 'bg-gray-900');
                         btn.innerHTML = 'Authenticate <i class="fa-solid fa-fingerprint text-lg"></i>';
