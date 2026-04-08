@@ -30,7 +30,6 @@
             border: 1px solid rgba(255, 165, 0, 0.2);
             transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
-
         .glass-tile:hover {
             transform: translateY(-5px);
             border-color: rgba(249, 115, 22, 0.5);
@@ -86,7 +85,7 @@
 
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-        
+
         #applicationModal { transition: opacity 0.3s ease, visibility 0.3s ease; }
 
         .notification-toast {
@@ -103,6 +102,7 @@
 </head>
 <body class="min-h-screen flex flex-col relative overflow-x-hidden">
 
+<!-- Toast Notification -->
 <div id="notification" class="notification-toast fixed top-6 right-6 z-[200] flex items-center gap-4 bg-orange-950 text-white p-5 rounded-2xl shadow-2xl border border-orange-500/30 min-w-[320px]">
     <div id="toastIcon" class="bg-orange-600 p-2 rounded-lg">
         <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
@@ -113,6 +113,7 @@
     </div>
 </div>
 
+<!-- Application Modal -->
 <div id="applicationModal" class="fixed inset-0 z-[100] invisible opacity-0 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm overflow-y-auto transition-all duration-300">
     <div class="bg-white w-full max-w-4xl rounded-[2.5rem] p-8 md:p-12 shadow-2xl relative my-8">
         <button onclick="closeModal()" class="absolute top-6 right-6 text-gray-400 hover:text-orange-600 transition-colors">
@@ -125,6 +126,7 @@
                 <p class="text-sm text-gray-500 mb-8 font-bold uppercase tracking-widest">Candidate Information</p>
                 
                 <form id="applyForm" class="space-y-4">
+                    <input type="hidden" id="applyingFor">
                     <input type="text" id="formName" placeholder="Full Name (e.g. Juan Dela Cruz)" required 
                            class="w-full px-6 py-4 rounded-2xl bg-orange-50/50 border border-orange-100 focus:border-orange-500 outline-none transition-all">
                     
@@ -166,7 +168,6 @@
                         <p id="previewName" class="font-black text-2xl text-white uppercase tracking-tight">---</p>
                         <div class="h-0.5 w-8 bg-orange-600 mt-2 group-hover:w-full transition-all duration-500"></div>
                     </div>
-
                     <div class="grid grid-cols-1 gap-8">
                         <div>
                             <label class="block text-[10px] uppercase font-black text-slate-500 mb-2 tracking-widest">Email Access</label>
@@ -177,7 +178,6 @@
                             <p id="previewPhone" class="text-lg font-black text-slate-200 tracking-widest">---</p>
                         </div>
                     </div>
-
                     <div class="pt-6 border-t border-slate-800">
                         <label class="block text-[10px] uppercase font-black text-slate-500 mb-3 tracking-widest">Document Status</label>
                         <div class="flex items-center gap-3 bg-slate-900/50 p-3 rounded-xl border border-slate-800">
@@ -197,16 +197,16 @@
     </div>
 </div>
 
-    <header class="bg-white/80 backdrop-blur-xl shadow-sm sticky top-0 z-50 border-b border-orange-100">
+<!-- Header / Nav -->
+<header class="glass-nav shadow-sm sticky top-0 z-50">
     <nav class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div class="flex h-20 items-center justify-between">
-            <a href="index.html" class="flex items-center gap-3 group">
-                <img src="logo.png" alt="Garuda Logo" class="h-12 w-12 object-contain transition-all duration-500 group-hover:scale-125 group-hover:rotate-[360deg]">
+            <a href="index.html" class="flex items-center gap-3">
+                <img src="logo.png" alt="Garuda Logo" class="h-12 w-12 object-contain">
                 <span class="text-2xl font-extrabold tracking-tight text-slate-900">
                     Garuda <span class="text-orange-600">Recruitment Agency</span>
                 </span>
             </a>
-
             <div class="hidden md:flex items-center gap-10">
                 <div class="flex gap-10">
                     <a href="index.html" class="text-sm font-bold text-gray-500 hover:text-slate-900 transition-colors">Home</a>
@@ -214,7 +214,6 @@
                     <a href="jobs.html" class="text-sm font-bold text-slate-900 transition-colors relative after:content-[''] after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-0.5 after:bg-slate-900">Jobs</a>
                     <a href="contact.html" class="text-sm font-bold text-gray-500 hover:text-slate-900 transition-colors">Contact</a>
                 </div>
-
                 <a href="login.html" class="flex items-center gap-2 px-5 py-2.5 bg-slate-950 text-white hover:bg-orange-600 rounded-xl transition-all duration-300 group shadow-lg shadow-slate-200">
                     <svg class="h-4 w-4 text-orange-400 group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 11c0 3.517-1.009 6.799-2.753 9.571m-3.44-2.04l.054-.09A13.916 13.916 0 008 11a4 4 0 118 0c0 1.017-.07 2.019-.203 3m-2.118 6.844A21.88 21.88 0 0015.171 17m3.839 1.132c.645-2.266.99-4.659.99-7.132A8 8 0 008 4.07M3 15.364c.64-1.319 1-2.8 1-4.364 0-1.457.39-2.823 1.07-4"></path>
@@ -222,14 +221,12 @@
                     <span class="text-[10px] font-black uppercase tracking-widest">TA Portal</span>
                 </a>
             </div>
-
             <button class="md:hidden p-2 text-slate-900" onclick="toggleMobileMenu()">
                 <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
                 </svg>
             </button>
         </div>
-
         <div id="mobile-menu" class="hidden md:hidden pb-4">
             <a href="index.html" class="block py-2 text-base font-bold text-gray-500">Home</a>
             <a href="about.html" class="block py-2 text-base font-bold text-gray-500">About</a>
@@ -240,251 +237,206 @@
     </nav>
 </header>
 
-    <main class="flex-1">
-        <section class="aero-hero py-24 relative overflow-hidden">
-            <div class="mx-auto max-w-7xl px-6 flex flex-col md:flex-row items-center gap-12 relative z-10">
-                <div class="flex-1 text-center md:text-left">
-                    <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-black/20 backdrop-blur-md border border-white/20 text-white text-xs font-bold uppercase tracking-widest mb-8">
-                        <span class="w-2 h-2 rounded-full bg-orange-400 animate-pulse"></span>
-                        Join Our Elite Talent Pool
-                    </div>
-                    <h1 class="text-5xl md:text-7xl font-black text-white mb-6 tracking-tight leading-none">Spark Your <span class="italic text-orange-200">Career.</span></h1>
-                    <p class="text-xl text-orange-50 max-w-xl opacity-90 leading-relaxed font-medium">Your future, amplified. Discover premium roles curated by the Philippines' most energetic recruitment team.</p>
-                </div>
-                <div class="flex-1 grid grid-cols-2 gap-4">
-                    <div class="glass-tile p-8 rounded-3xl text-center">
-                        <div id="stat-placements" class="text-4xl font-black text-white mb-1">0</div>
-                        <div class="text-[10px] font-bold text-orange-400 uppercase tracking-widest">Placements</div>
-                    </div>
-                    <div class="glass-tile p-8 rounded-3xl text-center">
-                        <div id="stat-satisfaction" class="text-4xl font-black text-white mb-1">0</div>
-                        <div class="text-[10px] font-bold text-orange-400 uppercase tracking-widest">Client Satisfaction</div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Search bar and category filters removed -->
-
-        <section class="py-24">
-            <div class="mx-auto max-w-4xl px-6">
-                <div class="flex items-end justify-between mb-12">
-                    <div>
-                        <h2 class="text-3xl font-black text-orange-950 uppercase tracking-tighter">Open Vacancies</h2>
-                        <div class="h-1 w-12 bg-orange-500 mt-2 rounded-full"></div>
-                    </div>
-                    <p id="jobCount" class="text-sm font-bold text-gray-400"></p>
-                </div>
-                <div id="jobListings" class="space-y-12"></div>
-                <div id="noResults" class="hidden py-32 text-center bg-white rounded-[3rem] border-2 border-dashed border-orange-100"><p class="text-gray-400 font-bold">We couldn't find any roles matching that search.</p></div>
-            </div>
-        </section>
-
-        <section class="mx-auto max-w-4xl px-4 mb-32 group/section">
-    <div class="bg-white border-[6px] border-slate-950 rounded-[3rem] p-10 md:p-16 shadow-[20px_20px_0px_0px_rgba(234,88,12,1)] relative overflow-hidden transition-all duration-500 hover:shadow-[30px_30px_0px_0px_rgba(234,88,12,1)] hover:-translate-x-2 hover:-translate-y-2">
-        <div class="absolute inset-0 opacity-[0.03] pointer-events-none" style="background-image: radial-gradient(#ea580c 1px, transparent 1px); background-size: 20px 20px;"></div>
-        <div class="relative z-10 flex flex-col md:flex-row items-center gap-10">
+<main class="flex-1">
+    <!-- Hero Section -->
+    <section class="aero-hero py-24 relative overflow-hidden">
+        <div class="mx-auto max-w-7xl px-6 flex flex-col md:flex-row items-center gap-12 relative z-10">
             <div class="flex-1 text-center md:text-left">
-                <div class="inline-block px-3 py-1 rounded-lg bg-orange-100 text-orange-600 text-[10px] font-black uppercase tracking-[0.2em] mb-4">Direct Entry</div>
-                <h2 class="text-5xl md:text-6xl font-black text-slate-950 tracking-tighter leading-[0.9] mb-4">Don't see <br><span class="text-orange-600">a fit?</span></h2>
-                <p class="text-slate-500 font-bold uppercase text-xs tracking-[0.15em] leading-relaxed">We build custom roles for elite talent.<br>Send your profile to our priority queue.</p>
+                <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-black/20 backdrop-blur-md border border-white/20 text-white text-xs font-bold uppercase tracking-widest mb-8">
+                    <span class="w-2 h-2 rounded-full bg-orange-400 animate-pulse"></span>
+                    Join Our Elite Talent Pool
+                </div>
+                <h1 class="text-5xl md:text-7xl font-black text-white mb-6 tracking-tight leading-none">Spark Your <span class="italic text-orange-200">Career.</span></h1>
+                <p class="text-xl text-orange-50 max-w-xl opacity-90 leading-relaxed font-medium">Your future, amplified. Discover premium roles curated by the Philippines' most energetic recruitment team.</p>
             </div>
-            <button onclick="openApplication('General Application')" class="group/btn relative bg-[#ea580c] text-white px-12 py-6 rounded-2xl font-black text-xl shadow-[0_10px_20px_rgba(234,88,12,0.3)] hover:bg-slate-950 transition-all duration-300 active:scale-95 flex items-center gap-3">
-                <span>SEND CV</span>
-                <svg class="w-6 h-6 transition-transform group-hover/btn:translate-x-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
-            </button>
-        </div>
-    </div>
-</section>
-
-<div id="applicationModal" class="fixed inset-0 z-[100] invisible opacity-0 transition-all duration-300 backdrop-blur-md bg-slate-950/40 flex items-center justify-center p-4">
-    <div class="bg-white w-full max-w-xl rounded-[2.5rem] p-8 md:p-12 shadow-2xl relative transition-transform duration-300 scale-95" id="modalContainer">
-        <button onclick="closeModal()" class="absolute top-6 right-6 text-slate-400 hover:text-slate-900 transition-colors">
-            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="3" stroke-linecap="round" d="M6 18L18 6M6 6l12 12"></path></svg>
-        </button>
-        
-        <h2 id="modalJobTitle" class="text-3xl font-black text-slate-950 uppercase mb-2 tracking-tighter">Application</h2>
-        <p class="text-slate-500 font-medium mb-8 uppercase text-xs tracking-widest">Priority Entry Queue</p>
-
-        <form id="applyForm" class="space-y-4">
-            <input type="text" placeholder="Full Name" required class="w-full px-6 py-4 bg-slate-50 rounded-2xl border-2 border-transparent focus:border-orange-500 focus:bg-white focus:outline-none transition-all font-semibold">
-            <input type="email" placeholder="Email Address" required class="w-full px-6 py-4 bg-slate-50 rounded-2xl border-2 border-transparent focus:border-orange-500 focus:bg-white focus:outline-none transition-all font-semibold">
-            
-            <div class="relative">
-                <input type="file" id="resumeInput" class="hidden" required>
-                <label for="resumeInput" id="fileNameDisplay" class="flex items-center justify-center w-full px-6 py-4 border-2 border-dashed border-slate-200 rounded-2xl text-slate-400 font-bold cursor-pointer hover:border-orange-500 hover:text-orange-600 transition-all">
-                    Attach Resume (PDF/DOCX)
-                </label>
+            <div class="flex-1 grid grid-cols-2 gap-4">
+                <div class="glass-tile p-8 rounded-3xl text-center">
+                    <div id="stat-placements" class="text-4xl font-black text-white mb-1">0</div>
+                    <div class="text-[10px] font-bold text-orange-400 uppercase tracking-widest">Placements</div>
+                </div>
+                <div class="glass-tile p-8 rounded-3xl text-center">
+                    <div id="stat-satisfaction" class="text-4xl font-black text-white mb-1">0</div>
+                    <div class="text-[10px] font-bold text-orange-400 uppercase tracking-widest">Client Satisfaction</div>
+                </div>
             </div>
-            
-            <button type="submit" class="w-full bg-orange-600 text-white py-5 rounded-2xl font-black text-lg hover:bg-slate-950 shadow-lg shadow-orange-600/20 hover:shadow-slate-950/20 transition-all active:scale-[0.98]">
-                SUBMIT REQUIREMENTS
-            </button>
-        </form>
-    </div>
-</div>
-
-<div id="successToast" class="fixed bottom-10 left-1/2 -translate-x-1/2 z-[110] flex items-center gap-4 bg-slate-950 text-white px-8 py-5 rounded-[2rem] shadow-2xl transition-all duration-500 translate-y-20 opacity-0 invisible [&.show]:translate-y-0 [&.show]:opacity-100 [&.show]:visible">
-    <div class="w-10 h-10 rounded-full bg-orange-600 flex items-center justify-center shrink-0">
-        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
-    </div>
-    <div>
-        <h4 class="font-black uppercase text-[10px] tracking-widest text-orange-500">Success</h4>
-        <p class="text-white text-sm font-bold">Application sent to priority queue!</p>
-    </div>
-</div>
-
-<!-- Jobs are rendered by the script near the bottom using localStorage -->
-
-    <footer class="bg-orange-600 text-white relative overflow-hidden border-t border-orange-400">
-        <div class="absolute inset-0 opacity-10 pointer-events-none">
-            <svg class="h-full w-full" fill="none" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
-                <path d="M0 400L400 0" stroke="currentColor" stroke-width="20" />
-            </svg>
         </div>
+    </section>
 
-        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10 relative z-10">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+    <!-- Job Listings -->
+    <section class="py-24">
+        <div class="mx-auto max-w-4xl px-6">
+            <div class="flex items-end justify-between mb-12">
                 <div>
-                    <div class="flex items-center gap-3 mb-4">
-                        <img src="logo.png" alt="Garuda Logo" class="h-10 w-10 object-contain">
-                        <span class="text-xl text-white font-extrabold tracking-tight">Garuda Recruitment Agency</span>
-                    </div>
-                    <p class="text-sm leading-relaxed text-orange-50 font-medium">
-                        Connecting exceptional talent with outstanding opportunities since 2019.
+                    <h2 class="text-3xl font-black text-orange-950 uppercase tracking-tighter">Open Vacancies</h2>
+                    <div class="h-1 w-12 bg-orange-500 mt-2 rounded-full"></div>
+                </div>
+                <p id="jobCount" class="text-sm font-bold text-gray-400"></p>
+            </div>
+            <div id="jobListings" class="space-y-12">
+                <!-- Loading state -->
+                <div id="loadingState" class="text-center py-20 text-slate-400">
+                    <div class="inline-block w-10 h-10 border-4 border-orange-200 border-t-orange-600 rounded-full animate-spin mb-4"></div>
+                    <p class="font-bold uppercase tracking-widest text-sm">Loading opportunities...</p>
+                </div>
+            </div>
+            <div id="noResults" class="hidden py-32 text-center bg-white rounded-[3rem] border-2 border-dashed border-orange-100">
+                <p class="text-gray-400 font-bold">No roles available at the moment. Check back soon!</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA: Don't see a fit? -->
+    <section class="mx-auto max-w-3xl px-6 mb-24">
+        <div class="bg-white border-4 border-slate-950 rounded-[2.5rem] p-8 md:p-10 shadow-[12px_12px_0px_0px_rgba(234,88,12,1)] relative overflow-hidden transition-all duration-300 hover:shadow-[16px_16px_0px_0px_rgba(234,88,12,1)] hover:-translate-y-1">
+            <div class="absolute inset-0 opacity-[0.03] pointer-events-none" style="background-image: radial-gradient(#ea580c 1px, transparent 1px); background-size: 15px 15px;"></div>
+            <div class="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
+                <div class="text-center md:text-left">
+                    <div class="inline-block px-2 py-0.5 rounded-md bg-orange-100 text-orange-600 text-[9px] font-black uppercase tracking-[0.2em] mb-3">Direct Entry</div>
+                    <h2 class="text-3xl md:text-4xl font-black text-slate-950 tracking-tighter leading-tight mb-2">
+                        Don't see <span class="text-orange-600">a fit?</span>
+                    </h2>
+                    <p class="text-slate-500 font-bold uppercase text-[10px] tracking-widest leading-relaxed opacity-80">
+                        We build custom roles for elite talent.
                     </p>
                 </div>
-
-                <div>
-                    <h3 class="text-orange-200 mb-4 font-bold uppercase tracking-[0.15em] text-xs">Quick Links</h3>
-                    <ul class="space-y-2 text-sm"> <li><a href="index.html" class="text-white hover:text-orange-900 hover:translate-x-1 transition-all duration-300 inline-block font-semibold">Home</a></li>
-                        <li><a href="about.html" class="text-white hover:text-orange-900 hover:translate-x-1 transition-all duration-300 inline-block font-semibold">About Us</a></li>
-                        <li><a href="jobs.html" class="text-white hover:text-orange-900 hover:translate-x-1 transition-all duration-300 inline-block font-semibold">Browse Jobs</a></li>
-                        <li><a href="contact.html" class="text-white hover:text-orange-900 hover:translate-x-1 transition-all duration-300 inline-block font-semibold">Contact</a></li>
-                    </ul>
-                </div>
-
-                <div>
-                    <h3 class="text-orange-200 mb-4 font-bold uppercase tracking-[0.15em] text-xs">Contact Us</h3>
-                    <ul class="space-y-3 text-sm"> <li class="flex items-center gap-3">
-                            <div class="p-2 bg-orange-700/40 rounded-lg">
-                                <svg class="h-4 w-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
-                            </div>
-                            <span class="font-semibold text-orange-50">+(02) 8660-4154</span>
-                        </li>
-                        <li class="flex items-center gap-3">
-                            <div class="p-2 bg-orange-700/40 rounded-lg">
-                                <svg class="h-4 w-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
-                            </div>
-                            <span class="font-semibold text-orange-50">hrmel1997.garuda23@gmail.com</span>
-                        </li>
-                        <li class="flex items-start gap-3">
-                            <div class="p-2 bg-orange-700/40 rounded-lg mt-1">
-                                <svg class="h-4 w-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-                            </div>
-                            <span class="font-semibold text-orange-50 leading-snug">Bsc building 2nd flr.9 Columbia st<br>Corner Imperial, Quezon City, PH</span>
-                        </li>
-                    </ul>
-                </div>
-
-                <div>
-                    <h3 class="text-orange-200 mb-4 font-bold uppercase tracking-[0.15em] text-xs">Follow Us</h3>
-                    <div class="flex gap-4">
-                        <a href="https://www.facebook.com/profile.php?id=61573077883792" target="_blank" rel="noopener noreferrer" class="text-white hover:bg-white hover:text-orange-600 transition-all p-3 bg-orange-700 rounded-xl shadow-sm">
-                            <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="border-t border-orange-500/50 mt-8 pt-6 text-[11px] text-center tracking-[0.25em] uppercase font-bold text-orange-200">
-                <p>© 2019 Garuda Recruitment Agency. All rights reserved.</p>
+                <button onclick="openApplication('General Application', null)" class="group/btn relative bg-orange-600 text-white px-8 py-4 rounded-xl font-black text-sm shadow-[0_8px_15px_rgba(234,88,12,0.2)] hover:bg-slate-950 transition-all duration-300 active:scale-95 flex items-center gap-2 shrink-0">
+                    <span>SEND YOUR RESUME</span>
+                    <svg class="w-4 h-4 transition-transform group-hover/btn:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                    </svg>
+                </button>
             </div>
         </div>
-    </footer>
+    </section>
+</main>
 
-    <script>
-    const STORAGE_KEY = 'garuda_jobs_data';
+<!-- Footer -->
+<footer class="bg-orange-600 text-white relative overflow-hidden border-t border-orange-400">
+    <div class="absolute inset-0 opacity-10 pointer-events-none">
+        <svg class="h-full w-full" fill="none" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0 400L400 0" stroke="currentColor" stroke-width="20" />
+        </svg>
+    </div>
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10 relative z-10">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div>
+                <div class="flex items-center gap-3 mb-4">
+                    <img src="logo.png" alt="Garuda Logo" class="h-10 w-10 object-contain">
+                    <span class="text-xl text-white font-extrabold tracking-tight">Garuda Recruitment Agency</span>
+                </div>
+                <p class="text-sm leading-relaxed text-orange-50 font-medium">Connecting exceptional talent with outstanding opportunities since 2019.</p>
+            </div>
+            <div>
+                <h3 class="text-orange-200 mb-4 font-bold uppercase tracking-[0.15em] text-xs">Quick Links</h3>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="index.html" class="text-white hover:text-orange-900 hover:translate-x-1 transition-all duration-300 inline-block font-semibold">Home</a></li>
+                    <li><a href="about.html" class="text-white hover:text-orange-900 hover:translate-x-1 transition-all duration-300 inline-block font-semibold">About Us</a></li>
+                    <li><a href="jobs.html" class="text-white hover:text-orange-900 hover:translate-x-1 transition-all duration-300 inline-block font-semibold">Browse Jobs</a></li>
+                    <li><a href="contact.html" class="text-white hover:text-orange-900 hover:translate-x-1 transition-all duration-300 inline-block font-semibold">Contact</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="text-orange-200 mb-4 font-bold uppercase tracking-[0.15em] text-xs">Contact Us</h3>
+                <ul class="space-y-3 text-sm">
+                    <li class="flex items-center gap-3">
+                        <div class="p-2 bg-orange-700/40 rounded-lg">
+                            <svg class="h-4 w-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
+                        </div>
+                        <span class="font-semibold text-orange-50">+(02) 8660-4154</span>
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <div class="p-2 bg-orange-700/40 rounded-lg">
+                            <svg class="h-4 w-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                        </div>
+                        <span class="font-semibold text-orange-50">hrmel1997.garuda23@gmail.com</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <div class="p-2 bg-orange-700/40 rounded-lg mt-1">
+                            <svg class="h-4 w-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                        </div>
+                        <span class="font-semibold text-orange-50 leading-snug">Bsc building 2nd flr.9 Columbia st<br>Corner Imperial, Quezon City, PH</span>
+                    </li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="text-orange-200 mb-4 font-bold uppercase tracking-[0.15em] text-xs">Follow Us</h3>
+                <div class="flex gap-4">
+                    <a href="https://www.facebook.com/profile.php?id=61573077883792" target="_blank" rel="noopener noreferrer" class="text-white hover:bg-white hover:text-orange-600 transition-all p-3 bg-orange-700 rounded-xl shadow-sm">
+                        <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="border-t border-orange-500/50 mt-8 pt-6 text-[11px] text-center tracking-[0.25em] uppercase font-bold text-orange-200">
+            <p>© 2019 Garuda Recruitment Agency. All rights reserved.</p>
+        </div>
+    </div>
+</footer>
 
-    // 1. Unified Data Source (default seeds for first load)
-    const now = Date.now();
-    const HOUR = 60 * 60 * 1000;
-    const DAY = 24 * HOUR;
-
-    const defaultJobs = [
-        { id: 12, title: 'OSP TECHNICIAN', location: 'NCR', type: 'Full-time', salary: 'TBD', category: 'Technician', postedAt: now - 30 * 60 * 1000, description: 'Expertise in outside plant fiber installations and infrastructure maintenance.' }, // 30 mins ago
-        { id: 13, title: 'TECHNICAL CREW', location: 'NCR', type: 'Full-time', salary: 'TBD', category: 'Technician', postedAt: now - 45 * 60 * 1000, description: 'Technical support and operational equipment maintenance for specialized sites.' }, // 45 mins ago
-        { id: 1, title: 'SALES CLERK', location: 'Moa | Megamall | Makati', type: 'Full-time', salary: 'TBD', category: 'Retail Sales Associate', postedAt: now - 2 * DAY, description: 'Experience in retail customer service and floor management.' },
-        { id: 2, title: 'SALES STAFF', location: 'Baguio | Cavite | Cebu', type: 'Full-time', salary: 'TBD', category: 'Retail Sales Associate', postedAt: now - 3 * DAY, description: 'Assisting customers and managing store displays.' },
-        { id: 3, title: 'WAREHOUSE STAFF', location: 'Mandaluyong', type: 'Full-time', salary: 'TBD', category: 'Warehouse Staff', postedAt: now - 1 * DAY, description: 'Loading, unloading, and organizing inventory in the storage facility.' },
-        { id: 4, title: 'CSR REPRESENTATIVE', location: 'Ortigas', type: 'Full-time', salary: 'TBD', category: 'BPO', postedAt: now - 5 * DAY, description: 'Handle inbound calls and provide technical support to international clients.' },
-        { id: 5, title: 'SERVICE CREW', location: 'Taytay | Marikina | Taguig', type: 'Contract', salary: 'TBD', category: 'Crew', postedAt: now - 1 * HOUR, description: 'Fast-paced environment handling customer orders and dining area cleanliness.' },
-        { id: 6, title: 'CASHIER', location: 'Taytay | Marikina', type: 'Full-time', salary: 'TBD', category: 'Cashiering', postedAt: now - 4 * DAY, description: 'Efficiently handling transactions and point-of-sale systems.' },
-        { id: 14, title: 'COUNTER', location: 'Taytay | Marikina', type: 'Full-time', salary: 'TBD', category: 'Cashiering', postedAt: now - 10 * 60 * 1000, description: 'Assisting with front-end customer transactions and maintaining checkout efficiency.' }, // 10 mins ago
-        { id: 8, title: 'STOCK MAN', location: 'Taguig', type: 'Full-time', salary: 'TBD', category: 'Fastfood Inventory', postedAt: now - 2 * DAY, description: 'Oversee daily stock movement and inventory audits.' },
-        { id: 9, title: 'GRILL MAN', location: 'Marikina', type: 'Full-time', salary: 'TBD', category: 'Griller', postedAt: now - 2 * DAY, description: 'Expertise in food preparation and high-volume grilling operations.' },
-        { id: 10, title: 'MAINTENANCE', location: 'Quezon City', type: 'Full-time', salary: 'TBD', category: 'Maintenance', postedAt: now - 2 * DAY, description: 'Ensure facility equipment and physical structure are in top condition.' },
-        { id: 11, title: 'KITCHEN STAFF (DISHWASHER)', location: 'Taytay', type: 'Full-time', salary: 'TBD', category: 'Kitchen', postedAt: now - 2 * DAY, description: 'Back-of-house support, food prep, and dishwashing duties.' }
-    ];
-
+<script>
+    // ── Config ──────────────────────────────────────────────────────────────
+    
+    const API_BASE = 'http://localhost:8000/api/v1';
     let jobs = [];
+    let selectedJobId = null;
 
-    function loadJobs() {
-        const stored = localStorage.getItem(STORAGE_KEY);
-        if (stored) {
-            return JSON.parse(stored);
-        }
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(defaultJobs));
-        return defaultJobs;
+    // ── Mobile Menu ─────────────────────────────────────────────────────────
+    function toggleMobileMenu() {
+        document.getElementById('mobile-menu').classList.toggle('hidden');
     }
 
-    // 2. Initialization
-    window.addEventListener('DOMContentLoaded', () => {
-        jobs = loadJobs();
+    // ── 1. Load jobs from API ───────────────────────────────────────────────
+    async function loadJobs() {
+        try {
+            const res = await fetch(`${API_BASE}/public/jobs`, {
+                headers: { 'Accept': 'application/json' }
+            });
+            if (!res.ok) throw new Error('Failed to load jobs');
+            jobs = await res.json();
+        } catch (err) {
+            console.error('Could not load jobs:', err);
+            jobs = [];
+        }
         renderJobs();
-        animateValue("stat-placements", 0, 850, 2000, "+");
-        animateValue("stat-satisfaction", 0, 98, 2000, "%");
-        setupFormListeners();
+    }
 
-        // Refresh relative times every 60 seconds
-        setInterval(() => {
-            renderJobs();
-        }, 60000);
-    });
-
-    // 3. Core Logic: Rendering & Filtering
+    // ── 2. Render job listings ──────────────────────────────────────────────
     function renderJobs() {
-        const container = document.getElementById('jobListings');
+        const container  = document.getElementById('jobListings');
         const countLabel = document.getElementById('jobCount');
-        const noResults = document.getElementById('noResults');
-        
+        const noResults  = document.getElementById('noResults');
+        const loading    = document.getElementById('loadingState');
+
+        if (loading) loading.remove();
+
         if (!jobs.length) {
             container.innerHTML = '';
             if (noResults) noResults.classList.remove('hidden');
             countLabel.textContent = '0 Matches';
             return;
         }
-        
+
         if (noResults) noResults.classList.add('hidden');
         countLabel.textContent = `${jobs.length} active opportunities`;
-        
+
         container.innerHTML = jobs.map(job => `
             <div class="job-card-layered p-8 md:p-10 rounded-[2.5rem] group border border-orange-50 bg-white shadow-sm transition-all hover:shadow-xl">
                 <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
                     <div class="flex-1">
                         <div class="flex items-center gap-3 mb-4">
-                            <span class="bg-orange-50 text-[10px] font-black text-orange-600 px-3 py-1 rounded-full uppercase tracking-widest border border-orange-100">${job.category}</span>
-                            <span class="text-[10px] font-bold text-stone-400 uppercase tracking-widest">${formatRelativeTime(job.postedAt || job.posted)}</span>
+                            <span class="bg-orange-50 text-[10px] font-black text-orange-600 px-3 py-1 rounded-full uppercase tracking-widest border border-orange-100">${job.category || 'General'}</span>
+                            <span class="text-[10px] font-bold text-stone-400 uppercase tracking-widest">${formatRelativeTime(job.created_at || job.postedAt)}</span>
                         </div>
                         <h3 class="text-3xl font-black text-orange-950 mb-3 tracking-tighter group-hover:text-orange-600 transition-colors">${job.title}</h3>
                         <div class="flex flex-wrap gap-6 mb-6">
                             <span class="text-xs font-bold text-stone-500">📍 ${job.location}</span>
-                            <span class="text-xs font-bold text-stone-500">💰 ${job.salary === 'TBD' ? 'TBD' : '₱' + job.salary}</span>
+                            <span class="text-xs font-bold text-stone-500">💰 ${job.salary && job.salary !== 'TBD' ? '₱' + job.salary : 'TBD'}</span>
                             <span class="text-xs font-black text-orange-500 uppercase tracking-tighter">${job.type}</span>
                         </div>
-                        <p class="text-stone-500 text-sm leading-relaxed max-w-2xl font-medium">${job.description}</p>
+                        <p class="text-stone-500 text-sm leading-relaxed max-w-2xl font-medium">${job.description || ''}</p>
                     </div>
-                    <button onclick="openApplication('${job.title}')" class="w-full md:w-auto text-center bg-orange-600 hover:bg-orange-950 text-white px-10 py-4 rounded-2xl font-black transition-all active:scale-95 shadow-xl shadow-orange-600/20">
+                    <button onclick="openApplication('${job.title.replace(/'/g, "\\'")}', ${job.id})" 
+                            class="w-full md:w-auto text-center bg-orange-600 hover:bg-orange-950 text-white px-10 py-4 rounded-2xl font-black transition-all active:scale-95 shadow-xl shadow-orange-600/20">
                         APPLY NOW
                     </button>
                 </div>
@@ -492,14 +444,15 @@
         `).join('');
     }
 
-    // 4. Modal & Form Logic
-    function openApplication(jobTitle) {
-        const modal = document.getElementById('applicationModal');
+    // ── 3. Modal open/close ─────────────────────────────────────────────────
+    function openApplication(jobTitle, jobId) {
+        selectedJobId = jobId || null;
+        const modal      = document.getElementById('applicationModal');
         const modalTitle = document.getElementById('modalJobTitle');
         const hiddenInput = document.getElementById('applyingFor');
 
-        if(modalTitle) modalTitle.innerText = jobTitle;
-        if(hiddenInput) hiddenInput.value = jobTitle;
+        if (modalTitle)  modalTitle.innerText = jobTitle;
+        if (hiddenInput) hiddenInput.value    = jobTitle;
 
         modal.classList.remove('invisible', 'opacity-0');
         document.body.style.overflow = 'hidden';
@@ -511,6 +464,64 @@
         document.body.style.overflow = 'auto';
     }
 
+    // ── 4. Submit application to API ────────────────────────────────────────
+    document.getElementById('applyForm').addEventListener('submit', async function (e) {
+        e.preventDefault();
+
+        const submitBtn = this.querySelector('button[type="submit"]');
+        submitBtn.textContent = 'Submitting...';
+        submitBtn.disabled    = true;
+
+        const formData = new FormData();
+        formData.append('full_name',        document.getElementById('formName').value.trim());
+        formData.append('email',            document.getElementById('formEmail').value.trim());
+        formData.append('phone',            document.getElementById('formPhone').value.trim());
+        formData.append('address',          document.getElementById('formAddress').value.trim());
+        formData.append('position_applied', document.getElementById('applyingFor').value);
+
+        if (selectedJobId) {
+            formData.append('job_posting_id', selectedJobId);
+        }
+
+        const resumeFile = document.getElementById('resumeInput').files[0];
+        if (resumeFile) {
+            formData.append('resume', resumeFile);
+        }
+
+        try {
+            const res = await fetch(`${API_BASE}/public/applications`, {
+                method: 'POST',
+                headers: { 'Accept': 'application/json' },
+                body: formData,
+            });
+
+            const data = await res.json();
+
+            if (!res.ok) {
+                const errors = data.errors
+                    ? Object.values(data.errors).flat().join(' ')
+                    : data.message || 'Submission failed.';
+                throw new Error(errors);
+            }
+
+            closeModal();
+            showToast('Application Submitted!', 'Your application has been received. We will contact you soon!');
+            document.getElementById('applyForm').reset();
+            document.getElementById('fileNameDisplay').innerText = 'Attach Resume (PDF/DOCX)';
+            document.getElementById('previewName').innerText  = '---';
+            document.getElementById('previewEmail').innerText = '---';
+            document.getElementById('previewPhone').innerText = '---';
+            document.getElementById('previewFile').innerText  = 'No document attached';
+
+        } catch (err) {
+            showToast('Submission Failed', err.message, false);
+        } finally {
+            submitBtn.textContent = 'Submit Application';
+            submitBtn.disabled    = false;
+        }
+    });
+
+    // ── 5. Form live preview listeners ─────────────────────────────────────
     function setupFormListeners() {
         const resumeInput = document.getElementById('resumeInput');
         if (resumeInput) {
@@ -518,62 +529,86 @@
                 if (this.files.length > 0) {
                     const fileName = this.files[0].name;
                     document.getElementById('fileNameDisplay').innerText = fileName;
-                    document.getElementById('previewFile').innerText = "📎 " + fileName;
+                    document.getElementById('previewFile').innerText = '📎 ' + fileName;
                 }
             });
         }
-
-        // Live Preview logic
         const inputs = { 'formName': 'previewName', 'formEmail': 'previewEmail', 'formPhone': 'previewPhone' };
         Object.keys(inputs).forEach(id => {
             const el = document.getElementById(id);
-            if(el) {
+            if (el) {
                 el.addEventListener('input', function() {
-                    document.getElementById(inputs[id]).innerText = this.value || "---";
+                    document.getElementById(inputs[id]).innerText = this.value || '---';
                 });
             }
         });
     }
 
-    // 5. Utility Functions
-    function formatRelativeTime(value) {
-        // If we have a numeric timestamp, compute relative difference
-        if (typeof value === 'number') {
-            const diffMs = Date.now() - value;
-            const minutes = Math.floor(diffMs / (60 * 1000));
-            const hours = Math.floor(diffMs / (60 * 60 * 1000));
-            const days = Math.floor(diffMs / (24 * 60 * 60 * 1000));
+    // ── 6. Toast helper ─────────────────────────────────────────────────────
+    function showToast(title, message, success = true) {
+        const toast      = document.getElementById('notification');
+        const toastTitle = document.getElementById('toastTitle');
+        const toastMsg   = document.getElementById('toastMessage');
+        const toastIcon  = document.getElementById('toastIcon');
 
-            if (minutes < 1) return 'Just now';
-            if (minutes < 60) return `${minutes} min${minutes > 1 ? 's' : ''} ago`;
-            if (hours < 24) return `${hours} hour${hours > 1 ? 's' : ''} ago`;
-            if (days < 30) return `${days} day${days > 1 ? 's' : ''} ago`;
+        toastTitle.textContent = title;
+        toastMsg.textContent   = message;
 
-            const months = Math.floor(days / 30);
-            if (months < 12) return `${months} month${months > 1 ? 's' : ''} ago`;
-
-            const years = Math.floor(months / 12);
-            return `${years} year${years > 1 ? 's' : ''} ago`;
+        if (!success) {
+            toastIcon.innerHTML = '<svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M6 18L18 6M6 6l12 12"></path></svg>';
+            toast.classList.add('border-red-500/30');
+        } else {
+            toastIcon.innerHTML = '<svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>';
+            toast.classList.remove('border-red-500/30');
         }
 
-        // Fallback: if it was an older string label, just show it
-        return value || '';
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 5000);
     }
 
-    function animateValue(id, start, end, duration, suffix = "") {
+    // ── 7. Relative time formatter ──────────────────────────────────────────
+    function formatRelativeTime(value) {
+        if (!value) return '';
+        const timestamp = typeof value === 'number' ? value : new Date(value).getTime();
+        const diffMs  = Date.now() - timestamp;
+        const minutes = Math.floor(diffMs / 60000);
+        const hours   = Math.floor(diffMs / 3600000);
+        const days    = Math.floor(diffMs / 86400000);
+
+        if (minutes < 1)  return 'Just now';
+        if (minutes < 60) return `${minutes} min${minutes > 1 ? 's' : ''} ago`;
+        if (hours < 24)   return `${hours} hour${hours > 1 ? 's' : ''} ago`;
+        if (days < 30)    return `${days} day${days > 1 ? 's' : ''} ago`;
+        const months = Math.floor(days / 30);
+        if (months < 12)  return `${months} month${months > 1 ? 's' : ''} ago`;
+        const years = Math.floor(months / 12);
+        return `${years} year${years > 1 ? 's' : ''} ago`;
+    }
+
+    // ── 8. Stat counter animation ───────────────────────────────────────────
+    function animateValue(id, start, end, duration, suffix = '') {
         const obj = document.getElementById(id);
         if (!obj) return;
         let startTimestamp = null;
         const step = (timestamp) => {
             if (!startTimestamp) startTimestamp = timestamp;
             const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-            const easeOut = 1 - Math.pow(1 - progress, 3);
-            const current = Math.floor(easeOut * (end - start) + start);
-            obj.innerHTML = current + suffix;
+            const easeOut  = 1 - Math.pow(1 - progress, 3);
+            const current  = Math.floor(easeOut * (end - start) + start);
+            obj.innerHTML  = current + suffix;
             if (progress < 1) window.requestAnimationFrame(step);
         };
         window.requestAnimationFrame(step);
     }
 
-    // No category counts needed (filters removed)
+    // ── Init ────────────────────────────────────────────────────────────────
+    window.addEventListener('DOMContentLoaded', () => {
+        loadJobs();
+        animateValue('stat-placements', 0, 850, 2000, '+');
+        animateValue('stat-satisfaction', 0, 98, 2000, '%');
+        setupFormListeners();
+        setInterval(renderJobs, 60000);
+    });
 </script>
+</body>
+</html>

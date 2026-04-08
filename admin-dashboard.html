@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,199 +7,390 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap');
         body { font-family: 'Plus Jakarta Sans', sans-serif; }
-        
+
         .neural-grid {
             position: fixed; inset: 0;
-            background-image: radial-gradient(circle, #ea580c 1.2px, transparent 1.2px);
-            background-size: 30px 30px; opacity: 0.05; z-index: -1;
+            background-image: radial-gradient(circle, #ea580c 1.5px, transparent 1.5px);
+            background-size: 40px 40px; opacity: 0.08; z-index: -1;
         }
-        .glass-panel {
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(226, 232, 240, 0.8);
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.05);
+        }
+
+        .input-field {
+            background: rgba(248, 250, 252, 0.8);
+            border: 1px solid #e2e8f0;
+            transition: all 0.2s ease;
+        }
+        .input-field:focus {
+            border-color: #ea580c;
+            box-shadow: 0 0 0 4px rgba(234, 88, 12, 0.1);
+            outline: none;
+        }
+
+        .action-btn {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(15, 23, 42, 0.2);
+        }
+
+        .job-row {
+            transition: all 0.2s ease;
+            border-left: 4px solid transparent;
+        }
+        .job-row:hover {
+            border-left-color: #ea580c;
+            background: white;
+            transform: translateX(5px);
         }
     </style>
 </head>
 <body class="bg-slate-50 min-h-screen">
     <div class="neural-grid"></div>
 
-    <nav class="glass-panel sticky top-0 z-50 px-8 py-4 flex justify-between items-center border-b border-slate-200">
-        <div class="flex items-center gap-3">
-            <img src="logo.png" alt="Logo" class="h-10 w-10 object-contain">
-            <span class="font-black uppercase tracking-tighter text-xl text-slate-900">TA <span class="text-orange-600">Control Room</span></span>
+    <!-- Nav -->
+    <nav class="glass-card sticky top-0 z-50 px-10 py-5 flex justify-between items-center border-b border-slate-200">
+        <div class="flex items-center gap-4">
+            <div class="w-12 h-12 bg-white rounded-xl flex items-center justify-center shadow-lg shadow-orange-100 overflow-hidden border border-slate-100">
+                <img src="logo.png" alt="Garuda Logo" class="w-full h-full object-cover">
+            </div>
+            <div>
+                <span class="font-extrabold uppercase tracking-tighter text-2xl text-slate-900 leading-none block">Garuda</span>
+                <span class="text-[10px] font-bold text-orange-600 uppercase tracking-widest">TA Control Room</span>
+            </div>
         </div>
-        <div class="flex items-center gap-6">
-            <span class="text-[10px] font-black uppercase tracking-widest text-slate-400">Status: <span class="text-green-500">Authorized</span></span>
-            <button onclick="logout()" class="text-[10px] font-black uppercase tracking-widest bg-slate-900 text-white px-6 py-2.5 rounded-full hover:bg-orange-600 transition-all shadow-lg active:scale-95">
-                Sign Out
+        <div class="flex items-center gap-8">
+            <div class="hidden md:flex flex-col items-end">
+                <span class="text-[9px] font-black uppercase tracking-[0.2em] text-slate-400">Security Node</span>
+                <span id="userDisplay" class="text-xs font-bold text-green-500">AUTHORIZED_ACCESS</span>
+            </div>
+            <button onclick="logout()" class="text-[10px] font-bold uppercase tracking-widest bg-slate-900 text-white px-8 py-3 rounded-xl action-btn">
+                Logout
             </button>
         </div>
     </nav>
 
-    <main class="max-w-7xl mx-auto p-6 grid lg:grid-cols-3 gap-8 mt-8">
-        
-        <div class="lg:col-span-1">
-            <div class="glass-panel p-8 rounded-[2.5rem] shadow-xl shadow-orange-900/5 sticky top-28">
-                <h2 id="formTitle" class="text-2xl font-black tracking-tighter mb-6 uppercase text-slate-900">Post New <span class="text-orange-600">Job</span></h2>
-                
-                <form id="jobForm" class="space-y-4">
+    <!-- Toast -->
+    <div id="toast" class="fixed top-6 right-6 z-[200] hidden items-center gap-3 bg-slate-900 text-white px-6 py-4 rounded-2xl shadow-2xl text-sm font-bold">
+        <i id="toastIcon" class="fa-solid fa-check text-green-400"></i>
+        <span id="toastMsg">Done!</span>
+    </div>
+
+    <main class="max-w-7xl mx-auto p-8 grid lg:grid-cols-12 gap-10 mt-8">
+
+        <!-- Job Form -->
+        <div class="lg:col-span-4">
+            <div class="glass-card p-8 rounded-[2rem] sticky top-28">
+                <div class="flex items-center gap-3 mb-8">
+                    <div class="h-2 w-8 bg-orange-600 rounded-full"></div>
+                    <h2 id="formTitle" class="text-xl font-extrabold uppercase tracking-tight text-slate-900">Post <span class="text-orange-600">Listing</span></h2>
+                </div>
+
+                <form id="jobForm" onsubmit="handleSubmit(event)" class="space-y-5">
                     <input type="hidden" id="jobId">
-                    <div>
-                        <label class="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">Job Title</label>
-                        <input type="text" id="jobTitle" required placeholder="e.g. Senior Technician" class="w-full p-4 bg-white border border-slate-100 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none font-bold text-sm">
+
+                    <div class="space-y-1">
+                        <label class="text-[10px] font-bold uppercase tracking-widest text-slate-500 ml-1">Position</label>
+                        <input type="text" id="jobTitle" required placeholder="Project Manager"
+                               class="w-full p-4 input-field rounded-2xl font-semibold text-sm">
                     </div>
-                    <div>
-                        <label class="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">Location</label>
-                        <input type="text" id="jobLocation" required placeholder="Quezon City, PH" class="w-full p-4 bg-white border border-slate-100 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none font-bold text-sm">
-                    </div>
-                    <div>
-                        <label class="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">Category</label>
-                        <input
-                            type="text"
-                            id="jobCategory"
-                            placeholder="e.g. TECHNICIAN, RETAIL, BPO"
-                            class="w-full p-4 bg-white border border-slate-100 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none font-bold text-sm"
-                        >
-                    </div>
+
                     <div class="grid grid-cols-2 gap-4">
-                        <div>
-                            <label class="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">Salary</label>
-                            <input type="text" id="jobSalary" placeholder="TBD or ₱25,000" class="w-full p-4 bg-white border border-slate-100 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none font-bold text-sm">
+                        <div class="space-y-1">
+                            <label class="text-[10px] font-bold uppercase tracking-widest text-slate-500 ml-1">Location</label>
+                            <input type="text" id="jobLocation" required placeholder="Manila, PH"
+                                   class="w-full p-4 input-field rounded-2xl font-semibold text-sm">
                         </div>
-                        <div>
-                            <label class="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">Employment Type</label>
-                            <select id="jobType" class="w-full p-4 bg-white border border-slate-100 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none font-bold text-sm appearance-none">
+                        <div class="space-y-1">
+                            <label class="text-[10px] font-bold uppercase tracking-widest text-slate-500 ml-1">Sector</label>
+                            <input type="text" id="jobCategory" placeholder="Logistics, Sales"
+                                   class="w-full p-4 input-field rounded-2xl font-semibold text-sm">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="space-y-1">
+                            <label class="text-[10px] font-bold uppercase tracking-widest text-slate-500 ml-1">Salary</label>
+                            <input type="text" id="jobSalary" placeholder="TBA"
+                                   class="w-full p-4 input-field rounded-2xl font-semibold text-sm">
+                        </div>
+                        <div class="space-y-1">
+                            <label class="text-[10px] font-bold uppercase tracking-widest text-slate-500 ml-1">Type</label>
+                            <select id="jobType" class="w-full p-4 input-field rounded-2xl font-semibold text-sm appearance-none">
                                 <option value="Full-time">Full-time</option>
                                 <option value="Part-time">Part-time</option>
                                 <option value="Contract">Contract</option>
                             </select>
                         </div>
                     </div>
-                    <div>
-                        <label class="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">Short Description</label>
-                        <textarea id="jobDescription" rows="3" placeholder="One or two lines about the role..." class="w-full p-4 bg-white border border-slate-100 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none font-bold text-sm"></textarea>
+
+                    <div class="space-y-1">
+                        <label class="text-[10px] font-bold uppercase tracking-widest text-slate-500 ml-1">Job Description</label>
+                        <textarea id="jobDescription" rows="3" placeholder="Job descriptions..."
+                                  class="w-full p-4 input-field rounded-2xl font-semibold text-sm"></textarea>
                     </div>
-                    <button type="submit" id="submitBtn" class="w-full py-4 bg-orange-600 text-white rounded-xl font-black uppercase tracking-widest hover:bg-slate-950 transition-all shadow-lg shadow-orange-200 mt-2">
-                        Publish Listing
+
+                    <div class="flex items-center gap-3">
+                        <input type="checkbox" id="jobActive" checked class="w-4 h-4 accent-orange-600">
+                        <label for="jobActive" class="text-[9px] font-bold uppercase tracking-widest text-slate-400">Active / Visible on website</label>
+                    </div>
+
+                    <button type="submit" id="submitBtn"
+                            class="w-full py-4 bg-orange-600 text-white rounded-2xl font-extrabold uppercase tracking-[0.2em] text-xs hover:bg-slate-900 transition-all shadow-xl shadow-orange-100 mt-4">
+                        Publish
                     </button>
-                    <button type="button" id="cancelBtn" onclick="resetForm()" class="w-full py-2 text-slate-400 text-[10px] font-black uppercase tracking-widest hidden">
-                        Cancel Edit
+
+                    <button type="button" id="cancelBtn" onclick="resetForm()"
+                            class="w-full py-2 text-slate-400 text-[9px] font-bold uppercase tracking-widest hidden hover:text-red-500 transition-colors">
+                        Discard Changes
                     </button>
                 </form>
             </div>
         </div>
 
-        <div class="lg:col-span-2">
-            <div class="flex justify-between items-end mb-8">
+        <!-- Job List -->
+        <div class="lg:col-span-8">
+            <div class="flex justify-between items-end mb-10 bg-slate-900 p-8 rounded-[2rem] text-white shadow-2xl">
                 <div>
-                    <h2 class="text-4xl font-black tracking-tighter uppercase text-slate-900">Active <span class="text-orange-600">Offers</span></h2>
-                    <p class="text-slate-500 text-sm font-medium mt-1">Manage live listings on the public jobs.html page.</p>
+                    <h2 class="text-3xl font-extrabold tracking-tighter uppercase">Operational <span class="text-orange-500">Feed</span></h2>
+                    <p class="text-slate-400 text-xs font-medium mt-1 uppercase tracking-widest">Active mission control</p>
                 </div>
                 <div class="text-right">
-                    <span id="jobCount" class="text-3xl font-black text-slate-900">0</span>
-                    <p class="text-[10px] font-black uppercase text-slate-400">Total Listings</p>
+                    <span id="jobCount" class="text-5xl font-extrabold text-orange-500 italic">—</span>
+                    <p class="text-[9px] font-bold uppercase text-slate-400 tracking-[0.3em]">Deployments</p>
                 </div>
             </div>
 
             <div id="adminJobList" class="space-y-4">
+                <div class="text-center py-12 text-slate-400">
+                    <i class="fa-solid fa-spinner animate-spin text-2xl mb-3"></i>
+                    <p class="text-sm font-bold uppercase tracking-widest">Loading listings...</p>
                 </div>
+            </div>
         </div>
     </main>
 
     <script>
-    const STORAGE_KEY = 'garuda_jobs_data';
+        // ── Config ──────────────────────────────────────────────────────────────
+        const API_BASE = 'http://localhost:8000/api/v1/marketing';
 
-    // 1. LOAD DATA
-    function loadJobs() {
-        const data = localStorage.getItem(STORAGE_KEY);
-        return data ? JSON.parse(data) : [];
-    }
+        // ── Auth Guard ──────────────────────────────────────────────────────────
+        const token = localStorage.getItem('marketing_token');
+        if (!token) window.location.replace('./login.html');
 
-    // 2. DISPLAY THE LIST FOR THE TA
-    function renderAdminDashboard() {
-        const jobs = loadJobs();
-        const listContainer = document.getElementById('adminJobList');
-        const countEl = document.getElementById('jobCount');
+        const user = JSON.parse(localStorage.getItem('marketing_user') || '{}');
+        if (user.name) document.getElementById('userDisplay').textContent = user.name;
 
-        listContainer.innerHTML = jobs.map(job => `
-            <div class="flex items-center justify-between p-4 bg-white border-b border-slate-100 rounded-xl mb-2">
-                <div>
-                    <h4 class="font-black text-slate-900 uppercase text-sm">${job.title}</h4>
-                    <p class="text-[10px] font-bold text-slate-400">${job.category} • ${job.location} • ${job.type}</p>
-                    <p class="text-[10px] font-bold text-orange-500 mt-1">Offer: ${job.salary}</p>
+        // ── API Helper ──────────────────────────────────────────────────────────
+        async function api(method, path, body = null) {
+            const opts = {
+                method,
+                headers: {
+                    'Accept': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                },
+            };
+            if (body) {
+                opts.headers['Content-Type'] = 'application/json';
+                opts.body = JSON.stringify(body);
+            }
+            const res = await fetch(`${API_BASE}${path}`, opts);
+            if (res.status === 401) {
+                localStorage.removeItem('marketing_token');
+                localStorage.removeItem('marketing_user');
+                window.location.replace('./login.html');
+            }
+            return res;
+        }
+
+        // ── Toast ───────────────────────────────────────────────────────────────
+        function showToast(msg, success = true) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastMsg').textContent = msg;
+            document.getElementById('toastIcon').className = success
+                ? 'fa-solid fa-check text-green-400'
+                : 'fa-solid fa-xmark text-red-400';
+            toast.classList.remove('hidden');
+            toast.classList.add('flex');
+            setTimeout(() => {
+                toast.classList.add('hidden');
+                toast.classList.remove('flex');
+            }, 3000);
+        }
+
+        // ── Load & Render Jobs ──────────────────────────────────────────────────
+        async function loadJobs() {
+            const res  = await api('GET', '/jobs');
+            const jobs = await res.json();
+            renderDashboard(jobs);
+        }
+
+        function renderDashboard(jobs) {
+            const list  = document.getElementById('adminJobList');
+            const count = document.getElementById('jobCount');
+            count.textContent = jobs.length;
+
+            if (!jobs.length) {
+                list.innerHTML = `
+                    <div class="text-center py-16 text-slate-300">
+                        <i class="fa-solid fa-briefcase text-4xl mb-4"></i>
+                        <p class="font-black uppercase tracking-widest text-sm">No listings yet. Create your first job posting!</p>
+                    </div>`;
+                return;
+            }
+
+            list.innerHTML = jobs.map(job => `
+                <div class="job-row flex items-center justify-between p-6 glass-card rounded-2xl mb-4">
+                    <div class="flex items-center gap-6">
+                        <div class="w-12 h-12 bg-slate-50 rounded-xl flex items-center justify-center border border-slate-100 shrink-0">
+                            <i class="fa-solid fa-briefcase text-slate-400"></i>
+                        </div>
+                        <div>
+                            <div class="flex items-center gap-2 mb-1">
+                                <h4 class="font-extrabold text-slate-900 uppercase text-sm tracking-tight">${job.title}</h4>
+                                <span class="text-[9px] font-bold px-2 py-0.5 rounded-full ${job.is_active ? 'bg-green-100 text-green-600' : 'bg-slate-100 text-slate-400'} uppercase">
+                                    ${job.is_active ? 'LIVE' : 'HIDDEN'}
+                                </span>
+                            </div>
+                            <div class="flex items-center gap-3 mt-1">
+                                <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">${job.category || '—'}</span>
+                                <span class="w-1 h-1 bg-slate-300 rounded-full"></span>
+                                <span class="text-[10px] font-bold text-orange-600 uppercase tracking-widest">${job.location}</span>
+                            </div>
+                            <div class="mt-2">
+                                <span class="text-[9px] font-bold px-3 py-1 rounded-full ${job.type === 'Full-time' ? 'bg-green-100 text-green-600' : 'bg-blue-100 text-blue-600'} uppercase">
+                                    ${job.type}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex gap-2 shrink-0">
+                        <button onclick="toggleActive(${job.id}, ${job.is_active})" class="w-10 h-10 flex items-center justify-center rounded-xl hover:bg-yellow-500 hover:text-white text-slate-400 transition-all border border-slate-100" title="${job.is_active ? 'Hide' : 'Show'}">
+                            <i class="fa-solid ${job.is_active ? 'fa-eye-slash' : 'fa-eye'} text-xs"></i>
+                        </button>
+                        <button onclick="editJob(${job.id})" class="w-10 h-10 flex items-center justify-center rounded-xl hover:bg-slate-900 hover:text-white text-slate-400 transition-all border border-slate-100" title="Edit">
+                            <i class="fa-solid fa-pen-to-square text-xs"></i>
+                        </button>
+                        <button onclick="deleteJob(${job.id})" class="w-10 h-10 flex items-center justify-center rounded-xl hover:bg-red-500 hover:text-white text-slate-400 transition-all border border-slate-100" title="Delete">
+                            <i class="fa-solid fa-trash-can text-xs"></i>
+                        </button>
+                    </div>
                 </div>
-                <div class="flex gap-2">
-                    <button onclick="editJob(${job.id})" class="p-2 text-blue-500"><i class="fa-solid fa-pen"></i></button>
-                    <button onclick="deleteJob(${job.id})" class="p-2 text-red-500"><i class="fa-solid fa-trash"></i></button>
-                </div>
-            </div>
-        `).join('');
-
-        if (countEl) {
-            countEl.textContent = jobs.length;
-        }
-    }
-
-    // 3. FORM SUBMISSION (ADD or UPDATE)
-    document.getElementById('jobForm').onsubmit = function(e) {
-        e.preventDefault();
-        const id = document.getElementById('jobId').value;
-        let jobs = loadJobs();
-
-        const newJob = {
-            id: id ? parseInt(id) : Date.now(),
-            title: document.getElementById('jobTitle').value.toUpperCase(),
-            location: document.getElementById('jobLocation').value,
-            category: document.getElementById('jobCategory').value,
-            salary: document.getElementById('jobSalary').value || 'TBD',
-            type: document.getElementById('jobType').value || 'Full-time',
-            description: document.getElementById('jobDescription').value,
-            postedAt: Date.now()
-        };
-
-        if (id) {
-            const index = jobs.findIndex(j => j.id == id);
-            jobs[index] = newJob;
-        } else {
-            jobs.unshift(newJob);
+            `).join('');
         }
 
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(jobs));
-        this.reset();
-        document.getElementById('jobId').value = '';
-        renderAdminDashboard();
-        alert("Success: Job Board Updated!");
-    };
+        // ── Create / Update ─────────────────────────────────────────────────────
+        async function handleSubmit(e) {
+            e.preventDefault();
+            const id  = document.getElementById('jobId').value;
+            const btn = document.getElementById('submitBtn');
 
-    // 4. REMOVE JOB
-    function deleteJob(id) {
-        if(confirm("Permanently delete this job offer?")) {
-            const jobs = loadJobs().filter(j => j.id !== id);
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(jobs));
-            renderAdminDashboard();
+            const body = {
+                title:       document.getElementById('jobTitle').value,
+                location:    document.getElementById('jobLocation').value,
+                category:    document.getElementById('jobCategory').value,
+                salary:      document.getElementById('jobSalary').value || 'TBD',
+                type:        document.getElementById('jobType').value,
+                description: document.getElementById('jobDescription').value,
+                is_active:   document.getElementById('jobActive').checked,
+            };
+
+            btn.textContent = 'Saving...';
+            btn.disabled    = true;
+
+            try {
+                const res = id
+                    ? await api('PUT', `/jobs/${id}`, body)
+                    : await api('POST', '/jobs', body);
+
+                if (!res.ok) {
+    const err = await res.json();
+    throw new Error(JSON.stringify(err));
+}
+
+                showToast(id ? 'Listing updated!' : 'Listing published!');
+                resetForm();
+                loadJobs();
+            } catch (err) {
+                showToast(err.message, false);
+            } finally {
+                btn.textContent = 'Publish';
+                btn.disabled    = false;
+            }
         }
-    }
 
-    // 5. FILL FORM FOR EDITING
-    function editJob(id) {
-        const job = loadJobs().find(j => j.id === id);
-        document.getElementById('jobId').value = job.id;
-        document.getElementById('jobTitle').value = job.title;
-        document.getElementById('jobLocation').value = job.location;
-        document.getElementById('jobCategory').value = job.category;
-        document.getElementById('jobSalary').value = job.salary;
-        document.getElementById('jobDescription').value = job.description;
-        
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
+        // ── Edit ────────────────────────────────────────────────────────────────
+        async function editJob(id) {
+            const res  = await api('GET', '/jobs');
+            const jobs = await res.json();
+            const job  = jobs.find(j => j.id === id);
+            if (!job) return;
 
-    function logout() {
-        window.location.href = 'login.html';
-    }
+            document.getElementById('jobId').value          = job.id;
+            document.getElementById('jobTitle').value       = job.title;
+            document.getElementById('jobLocation').value    = job.location;
+            document.getElementById('jobCategory').value    = job.category || '';
+            document.getElementById('jobSalary').value      = job.salary;
+            document.getElementById('jobType').value        = job.type;
+            document.getElementById('jobDescription').value = job.description || '';
+            document.getElementById('jobActive').checked    = job.is_active;
 
-    window.onload = renderAdminDashboard;
-</script>
+            document.getElementById('formTitle').innerHTML  = 'Modify <span class="text-orange-600">Entry</span>';
+            document.getElementById('submitBtn').textContent = 'Update Listing';
+            document.getElementById('cancelBtn').classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // ── Delete ──────────────────────────────────────────────────────────────
+        async function deleteJob(id) {
+            if (!confirm('Confirm deletion of deployment record?')) return;
+            const res = await api('DELETE', `/jobs/${id}`);
+            if (res.ok) {
+                showToast('Listing deleted.');
+                loadJobs();
+            } else {
+                showToast('Failed to delete.', false);
+            }
+        }
+
+        // ── Toggle Active ───────────────────────────────────────────────────────
+        async function toggleActive(id, currentState) {
+            const res = await api('PATCH', `/jobs/${id}/toggle`);
+            if (res.ok) {
+                showToast(currentState ? 'Listing hidden from website.' : 'Listing is now live!');
+                loadJobs();
+            }
+        }
+
+        // ── Reset Form ──────────────────────────────────────────────────────────
+        function resetForm() {
+            document.getElementById('jobForm').reset();
+            document.getElementById('jobId').value         = '';
+            document.getElementById('jobActive').checked   = true;
+            document.getElementById('formTitle').innerHTML = 'Post <span class="text-orange-600">Listing</span>';
+            document.getElementById('submitBtn').textContent = 'Publish';
+            document.getElementById('cancelBtn').classList.add('hidden');
+        }
+
+        // ── Logout ──────────────────────────────────────────────────────────────
+        async function logout() {
+            await api('POST', '/logout').catch(() => {});
+            localStorage.removeItem('marketing_token');
+            localStorage.removeItem('marketing_user');
+            window.location.href = 'login.html';
+        }
+
+        // ── Init ────────────────────────────────────────────────────────────────
+        loadJobs();
+    </script>
 </body>
 </html>

@@ -8,188 +8,143 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
-        body { font-family: 'Plus Jakarta Sans', sans-serif; overflow: hidden; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
 
-        .neural-grid {
-            position: fixed;
-            inset: 0;
-            background-image: radial-gradient(circle, #ea580c 1.5px, transparent 1.5px);
-            background-size: 40px 40px;
-            opacity: 0.1;
-            z-index: -1;
+        .login-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
         }
 
-        /* UNIQUE DESIGN: Floating Ambient Depth */
-        .ambient-glow {
-            position: fixed;
-            width: 50vw;
-            height: 50vw;
-            background: radial-gradient(circle, rgba(234, 88, 12, 0.08) 0%, transparent 70%);
-            border-radius: 50%;
-            z-index: -2;
-            filter: blur(60px);
-            animation: float 20s infinite alternate ease-in-out;
-        }
-
-        @keyframes float {
-            0% { transform: translate(-10%, -10%) scale(1); }
-            100% { transform: translate(20%, 10%) scale(1.2); }
-        }
-
-        /* UNIQUE DESIGN: Scanning Terminal Line */
-        .login-glass::after {
-            content: '';
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 2px;
-            background: linear-gradient(90deg, transparent, #ea580c, transparent);
-            opacity: 0.2;
-            animation: scan 4s linear infinite;
-        }
-
-        @keyframes scan {
-            0% { transform: translateY(0); }
-            100% { transform: translateY(400px); }
-        }
-
-        .login-glass {
-            background: rgba(255, 255, 255, 0.75);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.8);
-            box-shadow: 0 25px 50px -12px rgba(234, 88, 12, 0.15);
-            position: relative;
-            overflow: hidden;
-        }
-
-        /* UNIQUE DESIGN: Input focus ring animation */
         input:focus {
-            box-shadow: 0 0 0 4px rgba(234, 88, 12, 0.1);
-            transform: translateY(-1px);
-        }
-
-        .reveal {
-            animation: revealUp 0.8s cubic-bezier(0.23, 1, 0.32, 1) forwards;
-        }
-
-        @keyframes revealUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        /* NEW: Hover state for the button icon */
-        #authBtn:hover i {
-            transform: scale(1.2) rotate(10deg);
-            color: #fff;
+            outline: none;
+            border-color: #ea580c;
         }
     </style>
 </head>
 <body class="bg-slate-50 min-h-screen flex items-center justify-center p-4">
-    <div class="neural-grid"></div>
-    <div class="ambient-glow" style="top: -10%; left: -10%;"></div>
-    <div class="ambient-glow" style="bottom: -10%; right: -10%; background: radial-gradient(circle, rgba(59, 130, 246, 0.05) 0%, transparent 70%);"></div>
 
-    <div class="w-full max-w-md reveal">
+    <div class="w-full max-w-md">
         <div class="text-center mb-8">
-            <a href="index.html" class="inline-block transition-all hover:scale-110 duration-500 hover:drop-shadow-[0_0_15px_rgba(234,88,12,0.4)]">
+            <a href="index.html" class="inline-block transition-transform hover:scale-105 duration-300">
                 <img src="logo.png" alt="Garuda" class="h-20 w-20 mx-auto mb-4 object-contain">
             </a>
             <h1 class="text-3xl font-black text-gray-900 tracking-tighter uppercase">TA-Management</h1>
             <p class="text-gray-500 font-medium text-sm flex items-center justify-center gap-2">
-                <span class="w-2 h-2 bg-orange-500 rounded-full animate-pulse"></span>
                 Internal Administration Access
             </p>
         </div>
 
-        <div class="login-glass p-10 rounded-[2.5rem]">
-            <form id="loginForm" onsubmit="handleTALogin(event)" class="space-y-6">
+        <div class="login-card p-10 rounded-[2rem]">
+            <div id="errorMsg" class="hidden mb-4 p-3 bg-red-50 border border-red-200 text-red-600 text-sm rounded-xl text-center font-medium"></div>
+
+            <form id="loginForm" onsubmit="handleLogin(event)" class="space-y-6">
                 <div class="space-y-2">
-                    <label class="text-[10px] font-black uppercase tracking-[0.2em] text-orange-600 ml-1">Staff ID / Email</label>
-                    <div class="relative group">
-                        <i class="fa-solid fa-id-badge absolute left-5 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-orange-600 transition-colors"></i>
-                        <input type="text" id="staffID" required 
-                               class="w-full pl-12 pr-6 py-4 bg-white/80 border border-gray-100 rounded-2xl focus:ring-4 focus:ring-orange-100 focus:border-orange-600 outline-none transition-all font-medium text-sm" 
-                               placeholder="Email Address">
+                    <label class="text-[10px] font-black uppercase tracking-[0.2em] text-orange-600 ml-1">Email Address</label>
+                    <div class="relative">
+                        <i class="fa-solid fa-id-badge absolute left-5 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                        <input type="email" id="staffEmail" required
+                               class="w-full pl-12 pr-6 py-4 bg-slate-50 border border-gray-200 rounded-xl font-medium text-sm transition-colors"
+                               placeholder="your@email.com">
                     </div>
                 </div>
 
                 <div class="space-y-2">
                     <label class="text-[10px] font-black uppercase tracking-[0.2em] text-orange-600 ml-1">Secure Password</label>
-                    <div class="relative group">
-                        <div class="absolute left-5 top-1/2 -translate-y-1/2 flex items-center pointer-events-none">
-                            <i class="fa-solid fa-key text-gray-400 group-focus-within:text-orange-600 transition-colors duration-300"></i>
-                        </div>
-                        <input type="password" id="staffPass" required 
-                               class="w-full pl-12 pr-12 py-4 bg-white/80 border border-gray-100 rounded-2xl focus:ring-4 focus:ring-orange-100 focus:border-orange-600 outline-none transition-all font-medium text-sm placeholder:text-gray-300" 
+                    <div class="relative">
+                        <i class="fa-solid fa-key absolute left-5 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                        <input type="password" id="staffPass" required
+                               class="w-full pl-12 pr-12 py-4 bg-slate-50 border border-gray-200 rounded-xl font-medium text-sm transition-colors"
                                placeholder="••••••••">
-                        <div class="absolute right-5 top-1/2 -translate-y-1/2 pointer-events-none">
-                            <i class="fa-solid fa-lock-hashtag text-[10px] text-gray-300 group-focus-within:text-orange-400 opacity-50 transition-all"></i>
-                        </div>
                     </div>
                 </div>
 
-                <button type="submit" id="authBtn" 
-                        class="w-full py-5 bg-gray-900 text-white rounded-2xl font-black uppercase tracking-[0.2em] hover:bg-orange-600 transition-all duration-500 shadow-xl shadow-orange-100 flex items-center justify-center gap-3 active:scale-95 overflow-hidden relative group">
-                    <span class="relative z-10">Authenticate</span>
-                    <i class="fa-solid fa-fingerprint text-lg relative z-10 transition-transform"></i>
-                    <div class="absolute top-0 -left-full w-full h-full bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-[-20deg] group-hover:left-full transition-all duration-1000"></div>
+                <button type="submit" id="authBtn"
+                        class="w-full py-5 bg-gray-900 text-white rounded-xl font-black uppercase tracking-[0.2em] hover:bg-orange-600 transition-colors shadow-lg flex items-center justify-center gap-3 active:scale-95">
+                    <span id="btnText">Authenticate</span>
+                    <i class="fa-solid fa-fingerprint text-lg" id="btnIcon"></i>
                 </button>
             </form>
         </div>
 
         <div class="text-center mt-8">
-            <a href="index.html" class="inline-flex items-center gap-2 text-gray-400 hover:text-orange-600 text-[10px] font-black uppercase tracking-[0.3em] transition-all hover:tracking-[0.4em]">
+            <a href="index.html" class="inline-flex items-center gap-2 text-gray-400 hover:text-orange-600 text-[10px] font-black uppercase tracking-[0.3em] transition-all">
                 <i class="fa-solid fa-arrow-left"></i> Return to Homepage
             </a>
         </div>
     </div>
 
     <script>
-        const userDatabase = [
-            { email: "admin1@garuda.com", pass: "Garuda2026!1" },
-            { email: "admin2@garuda.com", pass: "Garuda2026!2" },
-            { email: "admin3@garuda.com", pass: "Garuda2026!3" },
-            { email: "admin4@garuda.com", pass: "Garuda2026!4" },
-            { email: "ta@garuda.com", pass: "TA2026!!" }
-        ];
+        // ── Config ──────────────────────────────────────────────────────────────
+        const API_BASE = 'http://localhost:8000/api/v1';
 
-        function handleTALogin(event) {
+        // ── Guard: redirect if already logged in ────────────────────────────────
+        if (localStorage.getItem('marketing_token')) {
+            window.location.replace('./admin-dashboard.html');
+        }
+
+        // ── Login Handler ───────────────────────────────────────────────────────
+        async function handleLogin(event) {
             event.preventDefault();
-            const staffID = document.getElementById('staffID').value.trim().toLowerCase();
-            const staffPass = document.getElementById('staffPass').value;
-            const btn = document.getElementById('authBtn');
 
-            const user = userDatabase.find(u => u.email === staffID && u.pass === staffPass);
+            const email    = document.getElementById('staffEmail').value.trim();
+            const password = document.getElementById('staffPass').value;
+            const btn      = document.getElementById('authBtn');
+            const btnText  = document.getElementById('btnText');
+            const btnIcon  = document.getElementById('btnIcon');
+            const errorMsg = document.getElementById('errorMsg');
 
-            btn.innerHTML = '<i class="fa-solid fa-spinner animate-spin"></i> Verifying...';
+            errorMsg.classList.add('hidden');
             btn.disabled = true;
+            btnText.textContent = 'Verifying...';
+            btnIcon.className = 'fa-solid fa-spinner animate-spin text-lg';
 
-            setTimeout(() => {
-                if (user) {
-                    btn.classList.replace('bg-gray-900', 'bg-green-600');
-                    btn.innerHTML = 'Access Granted <i class="fa-solid fa-check"></i>';
-                    
-                    setTimeout(() => {
-                        window.location.replace('./admin-dashboard.html');
-                    }, 800);
-                } else {
-                    btn.classList.replace('bg-gray-900', 'bg-red-600');
-                    btn.innerHTML = 'Access Denied <i class="fa-solid fa-xmark"></i>';
-                    
-                    // Add a shake effect to the card on failure
-                    document.querySelector('.login-glass').animate([
-                        { transform: 'translateX(0)' },
-                        { transform: 'translateX(-10px)' },
-                        { transform: 'translateX(10px)' },
-                        { transform: 'translateX(0)' }
-                    ], { duration: 300 });
+            try {
+                const response = await fetch(`${API_BASE}/marketing/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                    body: JSON.stringify({ email, password }),
+                });
 
-                    setTimeout(() => {
-                        btn.classList.replace('bg-red-600', 'bg-gray-900');
-                        btn.innerHTML = 'Authenticate <i class="fa-solid fa-fingerprint text-lg"></i>';
-                        btn.disabled = false;
-                    }, 2000);
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.message || 'Invalid credentials.');
                 }
-            }, 1000);
+
+                localStorage.setItem('marketing_token', data.token);
+                localStorage.setItem('marketing_user', JSON.stringify(data.user));
+
+                btn.style.backgroundColor = '#16a34a';
+                btnText.textContent = 'Access Granted';
+                btnIcon.className = 'fa-solid fa-check text-lg';
+
+                setTimeout(() => {
+                    window.location.replace('./admin-dashboard.html');
+                }, 800);
+
+            } catch (err) {
+                btn.style.backgroundColor = '#dc2626';
+                btnText.textContent = 'Access Denied';
+                btnIcon.className = 'fa-solid fa-xmark text-lg';
+
+                errorMsg.textContent = err.message;
+                errorMsg.classList.remove('hidden');
+
+                document.querySelector('.login-card').animate([
+                    { transform: 'translateX(0)' },
+                    { transform: 'translateX(-10px)' },
+                    { transform: 'translateX(10px)' },
+                    { transform: 'translateX(0)' }
+                ], { duration: 300 });
+
+                setTimeout(() => {
+                    btn.style.backgroundColor = '';
+                    btnText.textContent = 'Authenticate';
+                    btnIcon.className = 'fa-solid fa-fingerprint text-lg';
+                    btn.disabled = false;
+                }, 2000);
+            }
         }
     </script>
 </body>
