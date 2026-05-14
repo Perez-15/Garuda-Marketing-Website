@@ -1,7 +1,0 @@
-Account Details for Testing:
-   User Emails:			    Password:			Linked OTP Number:                   Names:
-admin1@garuda.com	      Garuda2026!1			  0917 541 9923                     Ms. Pat
-admin2@garuda.com	      Garuda2026!2			  0927 406 4531                     Ms. Des
-admin3@garuda.com	      Garuda2026!3	  	 	  0915 422 9067                     Mr. Mago
-admin4@garuda.com	      Garuda2026!4			  0917 188 2066                     Mr. Ian
-ta@garuda.com           TA2026!!               Extra Account
